@@ -11,28 +11,33 @@ and K8s cluster, but the containers can be used in any environment that supports
 We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
 We support x86 and CUDA machines. We do not yet support ARM (including M1 Macs).
 
+For more information about versioning, architecture, and other compatibility questions see [our roadmap](roadmap.md).
+
 ## Getting started
 
 To get started all you need to do is download the latest version of the OctoML CLI using `wget` or `curl`.
 
 Once you have the tool you should be able to view the list of available commands by running `./octoml` in your current directory.
 
-To globally install move to an appropriate location like `/usr/local/bin` or add to your `PATH`.
+To globally install move to an appropriate location like `/usr/local/bin` or add the location of `octoml` to your `PATH` environment variable.
 
 ## Core commands
 
 ** Note: that you do not need to provide an OctoML API access token at this stage. **
 
-`octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
+`octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you
+for the information required for the CLI to generate a container for deployment.
 
 `octoml package`: Generates a deployment-ready Docker container for the models specified in the input configuration file. The input configuration file is required for this command to complete successfully.
 
-`octoml deploy`: Deploys a Docker container to a locally hosted endpoint. After completion of this command, you may run `docker ps` to confirm the a container has been successfully generated for you.
+`octoml deploy`: Deploys a Docker container to a locally hosted endpoint.
+After completion of this command, you may run `docker ps` to confirm the a container has been successfully generated for you.
 
 ** You can run the commands above with or without an OctoML account. If you run them without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform. **
 
-## Sign up for an OctoML account/ authenticate to access advanced features including model acceleration and benchmarking
-OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to sign up for an OctoML account and create an API token using the OctoML web UI.
+## Sign up for an OctoML account, and authenticate to access advanced features including model acceleration and benchmarking
+
+OctoML combines state-of-the-art machine learning acceleration technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to sign up for an OctoML account and create an API token using the OctoML web UI.
 
 `octoml setup acceleration`: (Coming soon) Prompts you for information required for acceleration, including an OctoML API access token, hardware, dynamic shape disambiguation, and a choice of express mode (completes within 20 minutes) versus full acceleration (may take several hours).
 
@@ -40,7 +45,12 @@ OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others
 
 `octoml deploy`: Same as above. You may now use this command to deploy your best-performing model container to a locally hosted endpoint.
 
-## Deploying OctoML packages to production-grade microservices and applications
+## Tutorials
+
+We have a set of tutorials on deploying three different models end to end.
+* [Vision](tutorials/README.md)
+* [Text Generation](tutorials/README.md)
+* [Question Answering](tutorials/README.md)
 
 See the tutorials folder for how to deploy OctoML model containers to downstream cloud registries like ECR and Kubernetes services like EKS.
 

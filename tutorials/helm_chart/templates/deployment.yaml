@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Chart.Name }}
-  name: {{ .Chart.Name }} 
-  namespace: {{ .Chart.Name }}
+    app: {{ .Values.Name }}
+  name: {{ .Values.Name }} 
+  namespace: {{ .Values.Name }}
 spec:
   progressDeadlineSeconds: 600
   replicas: {{ .Values.replicas }}
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: {{ .Values.Name }}
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -21,7 +21,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: {{ .Chart.Name }}
+        app: {{ .Values.Name }}
     spec:
       containers:
       - command:
@@ -31,7 +31,7 @@ spec:
         - --strict-model-config=false
         image: "{{ .Values.image.repository }}/{{ .Values.image.tag }}"
         imagePullPolicy: Always
-        name: {{ .Chart.Name }}
+        name: {{ .Values.Name }}
         ports:
         - containerPort: {{ .Values.ports.grpc }}
           protocol: TCP

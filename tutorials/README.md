@@ -1,9 +1,9 @@
-# Demos
+# Tutorials
 
-The demos in this directory will walk you through:
+The tutorials in this directory will walk you through how to:
 
-- ML model container generation using the `octoml` CLI
-- Container deployment and inference locally via docker
+- Create an ML model container using the `octoml` CLI
+- Deploy the container locally via Docker then inference
 - Container deployment and inference via Amazon Elastic Kubernetes Service (EKS)
 
 Three example model setups are provided for you to play with:
@@ -59,7 +59,7 @@ Run setup utility to install the python dependencies.
 ./setup.sh
 ```
 
-> Note: The following steps assume that your current working directory is one of the listed example model dirs above. Let's `cd` into the `vision` repository for example. 
+> Note: The following steps assume that your current working directory is one of the listed example model dirs above. Let's `cd` into the `vision` repository for example.
 
 Change Directory into the vision tutorial:
 
@@ -154,7 +154,7 @@ EKS is AWS's Kubernetes service for production scale services
 - IAM access to the EKS cluster
 
 
-Navigate one level back up to the tutorials repo. 
+Navigate one level back up to the tutorials repo.
 
 ```shell
 $ cd ..
@@ -183,7 +183,7 @@ For example:
 
 Finally, run inferences on the container deployed to EKS
 
-The last step of the `deploy_to_eks.sh` script port-forwards the EKS deployment's triton GRPC endpoint to localhost
+The last step of the `deploy_to_eks.sh` script port-forwards the EKS deployment's tvriton GRPC endpoint to localhost
 
 ```kubectl port-forward service/<model_name> -n <model_name> 8080:80```
 

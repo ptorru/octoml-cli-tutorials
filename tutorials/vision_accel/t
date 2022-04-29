@@ -1,0 +1,1 @@
+./deploy_to_eks.sh bert 186900524924_Sandbox-Developer bertv1 186900524924.dkr.ecr.us-west-2.amazonaws.com octoml-sandbox-sxq590bv us-west-2 8080
