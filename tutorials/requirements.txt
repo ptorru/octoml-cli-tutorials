@@ -5,5 +5,5 @@ numpy==1.21.4
 Pillow==9.1.1
 torch==1.11.0
 transformers==4.18.0
-tritonclient[grpc]==2.22.3
+tritonclient[all]==2.22.3
 onnxruntime==1.8.0
