@@ -25,7 +25,7 @@ $ octoml -V
 octoml 0.2.4 (d5d534e 2022-05-14 23:38:45)
 ```
 
-Verify you have python installed. You need Python3. Python3.10 users (e.g. Ubuntu Jammy) see our [Note on Python3.10](#todo)
+Verify you have python installed. You need Python3. Python3.10 users (e.g. Ubuntu Jammy) see our [Note on Python3.10](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials/vision#note-on-python310)
 
 ```shell
 $ python --version
