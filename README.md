@@ -9,7 +9,8 @@ This repository contains multiple examples of deploying OctoML containers to any
 and K8s cluster, but the containers can be used in any environment that supports Docker.
 
 We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
-We support x86 and CUDA machines. We do not yet support ARM (including M1 Macs).
+
+We support x86 and CUDA machines. **We do not yet support ARM (including M1 Macs).**
 
 ## Getting started
 
