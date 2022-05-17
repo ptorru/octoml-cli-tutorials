@@ -3,6 +3,8 @@
 The `octoml` CLI helps you create deployable containers for your ML models using the OctoML Platform, in the terminal or within your CI/CD pipeline.
 You can deploy and inference the container locally for development and testing then deploy the same container to the cloud.
 
+![OctoML CLI Example](https://www.datocms-assets.com/45680/1652749860-octoml_cli.gif)
+
 This repository contains multiple examples of deploying OctoML containers to any cloud environment given an image registry,
 and K8s cluster, but the containers can be used in any environment that supports Docker.
 
