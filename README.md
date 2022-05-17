@@ -21,7 +21,7 @@ To globally install move to an appropriate location like `/usr/local/bin` or add
 
 ## Core commands
 
-** Note: that you do not need to provide an OctoML API access token at this stage. **
+**Note: that you do not need to provide an OctoML API access token at this stage.**
 
 `octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
 
@@ -29,7 +29,7 @@ To globally install move to an appropriate location like `/usr/local/bin` or add
 
 `octoml deploy`: Deploys a Docker container to a locally hosted endpoint. After completion of this command, you may run `docker ps` to confirm the a container has been successfully generated for you.
 
-** You can run the commands above with or without an OctoML account. If you run them without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform. **
+**You can run the commands above with or without an OctoML account. If you run them without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform.**
 
 ## Sign up for an OctoML account/ authenticate to access advanced features including model acceleration and benchmarking
 OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to sign up for an OctoML account and create an API token using the OctoML web UI.
