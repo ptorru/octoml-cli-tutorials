@@ -1,9 +1,0 @@
-# Number of replicas for the Deployment
-replicas: 1
-
-# AWS platform
-platform: aws-c5n.xlarge
-
-ports:
-  grpc:   8001       # Used for gRPC calls.
-
