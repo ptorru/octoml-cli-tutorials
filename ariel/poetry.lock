@@ -80,7 +80,7 @@ python-versions = "*"
 
 [[package]]
 name = "grpcio"
-version = "1.43.0"
+version = "1.41.0"
 description = "HTTP/2-based RPC framework"
 category = "main"
 optional = false
@@ -90,7 +90,7 @@ python-versions = ">=3.6"
 six = ">=1.5.2"
 
 [package.extras]
-protobuf = ["grpcio-tools (>=1.43.0)"]
+protobuf = ["grpcio-tools (>=1.41.0)"]
 
 [[package]]
 name = "huggingface-hub"
