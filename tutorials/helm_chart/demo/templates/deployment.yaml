@@ -26,5 +26,7 @@ spec:
         ports:
         - containerPort: {{ .Values.grpcPort }}
           protocol: TCP
+        - containerPort: {{ .Values.httpPort }}
+          protocol: TCP
       imagePullSecrets:
       - name: {{ .Values.imagePullSecret }}

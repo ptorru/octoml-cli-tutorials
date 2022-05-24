@@ -5,8 +5,13 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-  - port: 80
+  - name: grpc
+    port: {{ .Values.grpcPort }}
     protocol: TCP
     targetPort: {{ .Values.grpcPort }}
+  - name: http
+    port: {{ .Values.httpPort }}
+    protocol: TCP
+    targetPort: {{ .Values.httpPort }}
   selector:
     app: {{ .Release.Name }}
