@@ -1,0 +1,33 @@
+name: PR Tests
+
+on:
+  pull_request:
+    branches: [ main ]
+
+env:
+  OCTOML_EMPLOYEE: 1
+
+jobs:
+  runtest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Make parent dirs for octoml-bin
+      run: mkdir -p target/debug
+    - name: Download octoml-bin (tar.gz)
+      run: curl --fail ${{secrets.CLI_DOWNLOAD_LINK_UBUNTU}} --output octoml.tar.gz && tar xzf octoml.tar.gz && mv octoml target/debug/octoml
+    - name: Show Download
+      run: ls -lR target/debug/octoml
+    - name: chmod octoml bin
+      run: chmod 775 target/debug/octoml
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install poetry
+      uses: abatilo/actions-poetry@v2.0.0
+      with:
+        poetry-version: 1.1.13
+    - name: Run setup.sh
+      run: cd tutorials && ./setup.sh
+    - name: Run setup-cloud.sh
+      run: cd tutorials && ./setup.sh
