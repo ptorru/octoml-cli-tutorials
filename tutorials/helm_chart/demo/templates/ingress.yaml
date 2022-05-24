@@ -3,17 +3,17 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: GRPC
-  name: fortune-ingress
-  namespace: {{ .Chart.Name }}
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ingressClassName: nginx
   rules:
-  - host: {{ .Chart.Name }}.demo.octoml.ai
+  - host: {{ .Values.hostname }}
     http:
       paths:
       - backend:
           service:
-            name: {{ .Chart.Name }}
+            name: {{ .Release.Name }}
             port:
               number: 80
         path: /

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - name: grpc
+    port: {{ .Values.grpcPort }}
+    protocol: TCP
+    targetPort: {{ .Values.grpcPort }}
+  - name: http
+    port: {{ .Values.httpPort }}
+    protocol: TCP
+    targetPort: {{ .Values.httpPort }}
+  selector:
+    app: {{ .Release.Name }}

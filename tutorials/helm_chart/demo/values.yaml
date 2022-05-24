@@ -1,0 +1,23 @@
+# Number of replicas for the Deployment
+replicas: 1
+
+# Triton server ports
+grpcPort:   8001
+httpPort:   8000
+
+# Name of the image pull secret
+imagePullSecret: regcred
+
+# Full path (url) to the image and the tag to use
+imageName:
+imageTag: latest
+
+# Hostname for the ingress
+hostname:
+
+# Credentials for creating an image pull secret
+imageCredentials:
+  registry:
+  username:
+  password:
+  email:

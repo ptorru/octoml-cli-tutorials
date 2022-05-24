@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}
+        command:
+        - tritonserver
+        args:
+        - --model-repository=octoml/models
+        - --strict-model-config=false
+        image: "{{ .Values.imageName}}:{{ .Values.imageTag }}"
+        ports:
+        - containerPort: {{ .Values.grpcPort }}
+          protocol: TCP
+        - containerPort: {{ .Values.httpPort }}
+          protocol: TCP
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecret }}
