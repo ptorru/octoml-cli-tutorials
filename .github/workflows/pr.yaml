@@ -30,4 +30,4 @@ jobs:
     - name: Run setup.sh
       run: cd tutorials && ./setup.sh
     - name: Run setup-cloud.sh
-      run: cd tutorials && ./setup.sh
+      run: cd tutorials && ./setup-cloud.sh
