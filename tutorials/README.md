@@ -149,8 +149,7 @@ EKS is AWS's Kubernetes service for production scale services
 > Note: the following steps assume the following have already been configured:
 
 - An AWS Elastic Container Registry (ECR) for pushing built docker images to
-- An EKS cluster with a node pool for c5n.xlarge instances that has a no_schedule taint for `octoml.ai/octomizer-platform: aws-c5n.xlarge`
-- nginx-ingress for above EKS cluster
+- An EKS cluster with a node pool for c5n.xlarge instances
 - IAM access to the EKS cluster
 
 
