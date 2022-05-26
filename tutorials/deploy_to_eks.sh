@@ -41,10 +41,10 @@ kubectl create namespace demo
 set -e
 
 # Install helm chart to the EKS cluster via helm
-helm install demo ./helm_chart \
+helm install demo ./helm_chart -n demo \
 	--set image.tag=$MODEL_NAME:$DOCKER_IMAGE_TAG \
 	--set image.repository=$AWS_REGISTRY_URL \
         --timeout 5m0s --wait --atomic
 
 # port forward
-kubectl port-forward service/demo -n demo 8080:80
+kubectl port-forward service/demo -n demo 8080:8001
