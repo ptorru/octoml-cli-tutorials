@@ -21,6 +21,7 @@ then
     sudo ./aws/install
 fi
 
+# TODO: version checks for kubectl/helm (to meet version skew requirements from k8s version)
 
 # Install kubectl if not already installed
 if ! command -v kubectl &> /dev/null
