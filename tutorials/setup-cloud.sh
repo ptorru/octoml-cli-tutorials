@@ -1,16 +1,6 @@
 #!/bin/bash
 set -eux
 
-# Get setup dir
-SETUP_DIR=$(dirname $0)
-
-PYTHON=python
-# Compat for python3
-if ! command -v python &> /dev/null
-then
-    PYTHON=python3
-fi
-
 # Install aws cli if not already installed
 if ! command -v aws &> /dev/null
 then
@@ -21,6 +11,7 @@ then
     sudo ./aws/install
 fi
 
+# TODO: version checks for kubectl/helm (to meet version skew requirements from k8s version)
 
 # Install kubectl if not already installed
 if ! command -v kubectl &> /dev/null

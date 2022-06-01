@@ -2,7 +2,7 @@
 set -eux
 
 # Get setup dir
-SETUP_DIR=$(dirname $0)
+SETUP_DIR=$(dirname "$0")
 
 PYTHON=python
 # Compat for python3
@@ -22,11 +22,11 @@ ${PYTHON} -m transformers.onnx --model=bert-large-uncased-whole-word-masking-fin
 curl -fsSL -o generation/gpt2-lm-head-10.onnx https://github.com/onnx/models/raw/main/text/machine_comprehension/gpt-2/model/gpt2-lm-head-10.onnx
 
 # Install ariel lib
-pip install ${SETUP_DIR}/../ariel
+pip install "${SETUP_DIR}"/../ariel
 
 # Check for docker installation
 if ! command -v docker &> /dev/null
 then
-    echo "ERROR: `docker` not found. Please install docker: https://docs.docker.com/engine/install/"
+    echo "ERROR: docker not found. Please install docker: https://docs.docker.com/engine/install/"
     exit 1
 fi

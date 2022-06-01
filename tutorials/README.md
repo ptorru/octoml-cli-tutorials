@@ -143,15 +143,12 @@ Again, we see a cat score of 1, approach score of 1, and prey score of 0.999 on 
 
 ## Kubernetes Deployment
 
-Now that we have a production-grade container ready for deployment, let's deploy the container to an existing EKS cluster.
-EKS is AWS's Kubernetes service for production scale services
+Now that we have a production-grade container ready for deployment, let's deploy the container to an existing EKS cluster. EKS is AWS's Kubernetes service for production scale services.
 
-> Note: the following steps assume the following have already been configured:
+The steps below assume that the following have already been configured:
 
-- An AWS Elastic Container Registry (ECR) for pushing built docker images to
 - An EKS cluster with a node pool for c5n.xlarge instances
 - IAM access to the EKS cluster
-
 
 Navigate one level back up to the tutorials repo. 
 
@@ -161,7 +158,7 @@ $ ls
 README.md  deploy_to_eks.sh  generation  helm_chart  question_answering  requirements.txt  setup-cloud.sh  setup.sh  vision
 ```
 
-> Note: The following script requires `kubectl`, `helm`, and `aws` to be installed. You can run `./setup-cloud.sh` to install them. This requires `sudo`.
+The following script requires `kubectl`, `helm`, and `aws` to be installed. You can run `./setup-cloud.sh` to install them. This requires `sudo`.
 
 Install cloud utilities (if needed):
 
@@ -169,37 +166,86 @@ Install cloud utilities (if needed):
 ./setup-cloud.sh
 ```
 
-Run the following script to push our local container to an AWS ECR repo and install a sample helm chart to the EKS cluster.
+Fill in these bash variables for convenience:
 
-
-```./deploy_to_eks.sh <model_name> <aws_profile_name> <docker_image_tag_you_want_to_push> <aws_registry_url> <aws_cluster_name> <aws_region>```
+```
+model_name=
+aws_profile_name=
+docker_image_tag=
+aws_registry_url=
+cluster_name=
+aws_region=
+```
 
 For example:
 
-```./deploy_to_eks.sh critterblock 186900524924_Sandbox-Developer critterblockv5 186900524924.dkr.ecr.us-west-2.amazonaws.com octoml-sandbox-sxq590bv us-west-2```
+```
+model_name=critterblock
+aws_profile_name=186900524924_Sandbox-Developer
+docker_image_tag=v5
+aws_registry_url=186900524924.dkr.ecr.us-west-2.amazonaws.com
+cluster_name=octoml-sandbox-sxq590bv
+aws_region=us-west-2
+```
+
+Run the following script to push the local container to an AWS ECR repo and install a sample helm chart to the EKS cluster:
+
+
+```
+./deploy_to_eks.sh ${model_name} ${aws_profile_name} ${docker_image_tag} ${aws_registry_url} ${cluster_name} ${aws_region}
+```
+
+Check the status of the helm deployment:
+
+```
+helm list -n ${model_name}
+```
 
 ## Inference on Cloud
 
 Finally, run inferences on the container deployed to EKS
 
-The last step of the `deploy_to_eks.sh` script port-forwards the EKS deployment's triton GRPC endpoint to localhost
+Once the helm deploy completes, port-forward the EKS deployment's triton GRPC endpoint to localhost:
 
-```kubectl port-forward service/<model_name> -n <model_name> 8080:80```
+```
+kubectl port-forward service/${model_name} -n ${model_name} 8080:8001
+```
 
 Now we can run inference:
 
-```python run.py --triton --port 8080```
+```
+python run.py --triton --port 8080
+```
 
-To clean up the environment or if you want to try other live demos on EKS, kill the port-forward script and run:
+To run inference with the http endpoint, port-forward the HTTP endpoint instead:
 
-```helm uninstall demo```
+```
+kubectl port-forward service/${model_name} -n ${model_name} 8080:8000
+```
+
+And run inference with http:
+
+```
+python run.py --triton --protocol http --port 8080
+```
+
+
+To clean up the environment or if you want to try other live demos on EKS, stop the port-forward script and run:
+
+```
+helm uninstall ${model_name} -n ${model_name}
+```
 
 ## Troubleshooting
 
-To check for Kubernetes deployment info, run
+To check for Kubernetes deployment info, run:
 
-```kubectl get all -n demo```
+```
+kubectl get all -n ${model_name}
+```
 
-To get the logs for a failed pod deployment, run the above and modify the pod name below in the following command:
+To get the logs for a failed pod deployment, run the above and modify the pod name in the following command:
 
-```kubectl logs pod/demo-6f45998bbb-6jnlq -n demo```
+```
+kubectl logs pod/demo-6f45998bbb-6jnlq -n ${model_name}
+```
