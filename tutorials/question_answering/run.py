@@ -26,7 +26,7 @@ def tokenize_inputs(question, context):
         return_tensors="np"
     )
 
-    print("Question:", SAMPLE_QUESTION)
+    print("Question:", question)
     return dict(encoded_input)
 
 
@@ -46,9 +46,9 @@ def interpret_output_logits(outputs, encoded_input):
     print("Answer:", answer)
 
 
-def run_local():
+def run_local(question,context):
     # Preprocess input question
-    encoded_input = tokenize_inputs(SAMPLE_QUESTION, SAMPLE_CONTEXT)
+    encoded_input = tokenize_inputs(question,context)
 
     # Initialize the model
     session = InferenceSession('model.onnx')
@@ -60,12 +60,12 @@ def run_local():
     interpret_output_logits(outputs, encoded_input)
 
 
-def run_triton(port):
+def run_triton(port,question,context):
     # Preprocess input question
-    encoded_input = tokenize_inputs(SAMPLE_QUESTION, SAMPLE_CONTEXT)
+    encoded_input = tokenize_inputs(question,context)
 
     # Initialize the model
-    model = function_from_model("bert", port=port)
+    model = function_from_model("model", port=port)
 
     # Run inference
     outputs = model(**encoded_input)
@@ -78,11 +78,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Choose mode to run inference in.')
     parser.add_argument("--local", default=False, action="store_true")
     parser.add_argument("--triton", default=False, action="store_true")
+    parser.add_argument("--QA", default=False, action="store_true")
     parser.add_argument("--port", default=8001)
     args = parser.parse_args()
 
+    if args.QA:
+        question = input("Hi, I'm BERT. Ask me anything!\n")
+        context = input("Great Q! Please provide a bit more context.\n")
+    else:
+        question=SAMPLE_QUESTION
+        context=SAMPLE_CONTEXT
+
     if args.local:
-        run_local()
+        run_local(question,context)
     
     if args.triton:
-        run_triton(args.port)
+        run_triton(args.port,question,context)
