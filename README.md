@@ -1,16 +1,20 @@
 # OctoML CLI
 
 The `octoml` CLI helps you create deployable containers for your ML models using the OctoML Platform, in the terminal or within your CI/CD pipeline.
-You can deploy and inference the container locally for development and testing then deploy the same container to the cloud.
+You can deploy and run inferences on the container locally for development and testing, then deploy the same container to the cloud.
+
+By use of this CLI application, you agree to OctoML’s [Terms of Service](https://octoml.ai/legals/terms-of-service/) and [Privacy Policy](https://octoml.ai/legals/privacy-policy/).
 
 ![OctoML CLI Example](https://www.datocms-assets.com/45680/1652749860-octoml_cli.gif)
 
 This repository contains multiple examples of deploying OctoML containers to any cloud environment given an image registry,
 and K8s cluster, but the containers can be used in any environment that supports Docker.
 
-We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
+**Model framework coverage**: We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
 
-We support x86 and CUDA machines. **We do not yet support ARM (including M1 Macs).**
+**Hardware coverage**: We support x86, CUDA machines, and ARM64 machines (including M1 Macs).
+
+**OS coverage**: We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
 
 ## Getting started
 
