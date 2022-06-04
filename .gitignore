@@ -138,3 +138,4 @@ get_helm.sh
 kubectl
 aws
 gpt2-lm-head-10.onnx
+tutorials/question_answering/model.onnx
