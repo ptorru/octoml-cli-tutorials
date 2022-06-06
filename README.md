@@ -39,11 +39,11 @@ To globally install move to an appropriate location like `/usr/local/bin` or add
 ## Sign up for an OctoML account/ authenticate to access advanced features including model acceleration and benchmarking
 OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to sign up for an OctoML account and create an API token using the OctoML web UI.
 
-`octoml setup acceleration`: (Coming soon) Prompts you for information required for acceleration, including an OctoML API access token, hardware, dynamic shape disambiguation, and a choice of express mode (completes within 20 minutes) versus full acceleration (may take several hours).
+`octoml setup acceleration`: Prompts you for information required for acceleration, including an OctoML API access token, hardware, and dynamic shape disambiguation. Populates the information into your input configuration file for downstream use in `octoml package` and `octoml deploy`
 
-`octoml package`: After running `octoml setup acceleration` (coming soon), your input configuration file will have additional fields required for acceleration. The package command will parse those fields, attempt multiple acceleration strategies, then generate a deployable container for your model with minimal latency. If you wish to run `octoml package` in accelerated mode without first calling `octoml setup acceleration`, please make sure to configure your input configuration file with the required fields.
+`octoml package -a` or `octoml package -a -e`: Run either of these commands to attempt multiple acceleration strategies and generate a deployable container **with minimal latency** for each selected hardware. `octoml package -a` runs full acceleration and may take several hours to complete. `octoml package -a -e` runs express acceleration and completes within 20 minutes, but does not explore the optimization space fully. We recommend that you run these commands after first calling the interactive command `octoml setup acceleration`; if you do not wish to do so, please make sure to configure your input configuration file manually with the requisite fields for acceleration.
 
-`octoml deploy`: Same as above. You may now use this command to deploy your best-performing model container to a locally hosted endpoint.
+`octoml deploy -a` or `octoml deploy -e`: Same as above. You may now use this command to deploy your best-performing model container to a locally hosted endpoint.
 
 ## Deploying OctoML packages to production-grade microservices and applications
 
