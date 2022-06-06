@@ -6,6 +6,8 @@ on:
 
 env:
   OCTOML_EMPLOYEE: 1
+  OCTOML_TELEMETRY: false
+
 
 jobs:
   lint:
@@ -38,3 +40,9 @@ jobs:
       run: cd tutorials && ./setup.sh
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
+    - name: build vision model
+      run: cd tutorials/vision && ~/target/debug/octoml deploy
+    - name: docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: execute vision model
+      run: cd tutorials/vision && python run.py --triton
