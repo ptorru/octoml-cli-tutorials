@@ -27,6 +27,8 @@ jobs:
       run: curl --fail ${{secrets.CLI_DOWNLOAD_LINK_UBUNTU}} --output octoml.tar.gz && tar xzf octoml.tar.gz && mv octoml target/debug/octoml
     - name: Show Download
       run: ls -lR target/debug/octoml
+    - name: Show cwd
+      run: pwd
     - name: chmod octoml bin
       run: chmod 775 target/debug/octoml
     - uses: actions/setup-python@v2
