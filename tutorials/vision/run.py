@@ -3,7 +3,6 @@ import numpy as np
 from PIL import Image
 from tritonclient.utils import InferenceServerException
 import tritonclient.grpc as grpc_client
-import tritonclient.http as httpclient
 from ariel import function_from_model
 
 # onnxruntime doesn't support python 3.10
@@ -63,31 +62,17 @@ def run_triton(port, hostname="localhost"):
     interpret_cat_scores(pred)
 
 def run_triton_http(port, hostname="localhost"):
-    # Prepare client
-    url = "%s:%s" % (hostname, port)
-    triton_client = httpclient.InferenceServerClient(url=url)
-
     # Preprocess input image
-    image = Image.open("cat_input_images/prey1.jpeg")
-    processed = image_preprocess([image])
-    img = processed[0]
+    image = Image.open("prey1.jpeg")
 
-
-    # Initialize the model
-    inputs = []
-    # can look up inputs/outputs via:
-    # curl http://localhost:8000/v2/models/critterblock/config
-    inputs.append(httpclient.InferInput('image', [1,3,224,224], "FP32"))
-    inputs[0].set_data_from_numpy(img, binary_data=False)
+    # Initialize the model 
+    model = function_from_model("critterblock", preprocessing=image_preprocess, port=port, hostname=hostname, protocol="http")
 
     # Run inference
-    results = triton_client.infer("critterblock", inputs)
-
+    pred = model(image)
 
     # Interpret predictions
-    pred = [results.as_numpy('cat_image_type')]
     interpret_cat_scores(pred)
-
 
 
 if __name__ == "__main__":
@@ -114,5 +99,3 @@ if __name__ == "__main__":
             run_triton_http(http_port, args.hostname)
         else:
             print("Unknown protocol given. Supported protocols are grpc and http")
-
-
