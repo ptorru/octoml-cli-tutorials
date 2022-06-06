@@ -7,6 +7,7 @@ on:
 env:
   OCTOML_EMPLOYEE: 1
   OCTOML_TELEMETRY: false
+  OCTOML: /home/runner/work/octoml-cli-tutorials/octoml-cli-tutorials/target/debug/octoml
 
 
 jobs:
@@ -27,10 +28,10 @@ jobs:
       run: curl --fail ${{secrets.CLI_DOWNLOAD_LINK_UBUNTU}} --output octoml.tar.gz && tar xzf octoml.tar.gz && mv octoml target/debug/octoml
     - name: Show Download
       run: ls -lR target/debug/octoml
-    - name: Show cwd
-      run: pwd
     - name: chmod octoml bin
       run: chmod 775 target/debug/octoml
+    - name: print octoml version
+      run: $OCTOML -V
     - uses: actions/setup-python@v2
       with:
         python-version: 3.8
@@ -43,7 +44,7 @@ jobs:
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
     - name: build vision model
-      run: cd tutorials/vision && ~/target/debug/octoml deploy
+      run: cd tutorials/vision && $OCTOML deploy
     - name: docker check running
       run: sleep 4  && ps -ef | grep 8000
     - name: execute vision model
