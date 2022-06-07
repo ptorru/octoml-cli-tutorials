@@ -254,10 +254,10 @@ cluster_name=test-cluster
 gcp_region=us-central1
 ```
 
-Run the `deploy_to_eks.sh` script to create an artifact repository, push your image to it, and configure kubectl to connect to your cluster:
+Run the `deploy_to_gke.sh` script to create an artifact repository, push your image to it, and configure kubectl to connect to your cluster:
 
 ```
-./deploy_to_gke.sh $model_name $gcp_project_id $docker_image_tag $cluster_name $aws_region
+./deploy_to_gke.sh $model_name $gcp_project_id $docker_image_tag $cluster_name $gcp_region
 
 ```
 

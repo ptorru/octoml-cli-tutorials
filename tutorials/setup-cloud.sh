@@ -31,13 +31,11 @@ function install_azure {
     fi
 }
 
-echo "Choose a cloud cli to install:"
-select tool in aws gcloud azure; do
+for tool in "$@"; do
     case $tool in
-        aws ) install_aws; break;;
-        gcloud ) install_gcloud; break;;
-        azure ) install_azure; break;;
-        * ) break;;
+        aws ) install_aws;;
+        gcloud ) install_gcloud;;
+        azure ) install_azure;;
     esac
 done
 
