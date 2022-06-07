@@ -285,4 +285,4 @@ To get the logs for a failed pod deployment, run the above and modify the pod na
 kubectl logs pod/demo-6f45998bbb-6jnlq -n ${model_name}
 ```
 
-For Torchscript models traced on a GPU, containers will not be able to be accelerated for nor run on CPUs in the local CLI. Please sign up for an OctoML account and upgrade to authenticated usage per the instructions above if this use case is applicable for you.
+For Torchscript models traced on a GPU, containers will not be able to be run on CPUs in the local CLI. Please sign up for an OctoML account and upgrade to authenticated usage per the instructions above if this use case is applicable for you.
