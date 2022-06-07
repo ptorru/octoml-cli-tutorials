@@ -9,7 +9,7 @@ The demos in this directory will walk you through:
 Three example model setups are provided for you to play with:
 
 ```
-- vision/                 -- A classification vision model in ONNX to detect whether a cat is bringing in prey
+- vision/                 -- A classification vision model in ONNX to detect whether a cat is trying to bring their prey into your house
 - question_answering/    -- BERT in ONNX, using the huggingface transformers library for pre and post processing
 - generation/             -- GPT2 in ONNX, calling into the huggingface transformers library for generation at runtime
 ```
@@ -82,12 +82,12 @@ Prey score: 0.999
 --------------------------------------
 ```
 
-The `critterblock.onnx` model is a Computer Vision (Resnet-based) model customized for a cat door; the door stays closed when it detects that a cat is carrying its prey and opens when the cat is not. In `run.py`, we pass in a sample image to the model, run image preprocessing code customized for this use case, run an inference using ONNX Runtime, and finally call image post-processing code on the results of the model. The script returns a cat score of 1, approach score of 1, and prey score of 0.999 on this image, which means the model correctly detected that a cat is approaching the cat door while holding its prey.
+The `critterblock.onnx` model is a Computer Vision (Resnet50-based) model customized for a cat door; the door locks when it detects that a cat is carrying its prey into the house. In `run.py`, we pass in a sample image to the model, run image preprocessing code customized for this use case, run an inference using ONNX Runtime, and finally call image post-processing code on the results of the model. In this case, the script returns a cat score of 1, approach score of 1, and prey score of 0.999 on this image, which means the model correctly detected that a cat is approaching the cat door while holding its prey.
 
 
 ## Generate production-scale deployment using OctoML CLI
 
-Now that we've confirmed the model is working as intended, let's prepare it for production-scale usage. We will deploy the package locally using the OctoML CLI without having to upload our models to the OctoML platform.
+Now that we've confirmed the model is working as intended, let's prepare it for production-scale usage (in this case, so that we can protect thousands of cloud-connected cat doors). We will deploy the package locally using the OctoML CLI without having to upload our models to the OctoML platform.
 
 The `octoml.yaml` file has been created for you already:
 
