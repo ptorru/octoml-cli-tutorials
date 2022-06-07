@@ -244,31 +244,32 @@ To access advanced features like model acceleration, you will need to [sign up](
 `octoml setup acceleration` is an interactive help wizard that not only prompts you for the API access token but also helps you populate the input configuration file (`octoml.yaml`) with other fields required for acceleration, including hardware and (for dynamically shaped models only) the model's input shapes. Beware that hardware selection requires that you click <space> and then <return> to confirm your selection.
 
 
-```
-octoml setup acceleration
+```shell
+$ octoml setup acceleration
 
 Updated octoml.yaml with the new hardware targets aws_c5.12xlarge - Cascade Lake - 48 vCP
 ```
+  
 
 Now, you are ready to run accelerated packaging, which returns you the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -a` for full acceleration mode.
 
 
-```
-octoml package -e
+```shell
+$ octoml package -e
 ```
 
 Now, verify that you've successfully built an accelerated container. 
 
-```
-docker images | head
+```shell
+$ docker images | head
 ```
 
 You can now push the local container to a remote container repository (e.g. ECR) per the instructions above, then run inferences against the container on a remote machine with an architecture matching the one you've accelerated the model for.
 
 If you wish to locally deploy and test inferences against the accelerated container, you may run the following command, but note that it only works if the local machine on which you're running the CLI has the same hardware architecture as the hardware you accelerated the model for (e.g. if you are running the CLI on an M1 mac, you can only run deployment on your local mac successfully if you accelerated your model on a Graviton instance, as both of them share the ARM64 architecture).
 
-```
-octoml deploy -e
+```shell
+$ octoml deploy -e
 ```
 
 ## Troubleshooting
