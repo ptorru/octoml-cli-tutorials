@@ -144,12 +144,7 @@ Again, we see a cat score of 1, approach score of 1, and prey score of 0.999 on 
 
 ## Kubernetes Deployment
 
-Now that we have a production-grade container ready for deployment, let's deploy the container to an existing EKS cluster. EKS is AWS's Kubernetes service for production scale services.
-
-The steps below assume that the following have already been configured:
-
-- An EKS cluster with a node pool for c5n.xlarge instances
-- IAM access to the EKS cluster
+Now that we have a production-grade container ready for deployment, let's deploy the container to a Kubernetes cluster. Below we have docs for deploying to a Kubernetes cluster using Google GKE, Amazon EKS, and Azure AKS.
 
 Navigate one level back up to the tutorials repo. 
 
@@ -159,19 +154,31 @@ $ ls
 README.md  deploy_to_eks.sh  generation  helm_chart  question_answering  requirements.txt  setup-cloud.sh  setup.sh  vision
 ```
 
-The following script requires `kubectl`, `helm`, and `aws` to be installed. You can run `./setup-cloud.sh` to install them. This requires `sudo`.
+### Using Amazon EKS
 
-Install cloud utilities (if needed):
+If you don't already have an EKS cluster set up, follow the guides from AWS to set one up, or optionally use Terraform:
+
+- [Getting started with Amazon EKS – eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)
+- [Getting started with Amazon EKS – AWS Management Console and AWS CLI](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
+- [Provision an EKS Cluster (AWS)](https://learn.hashicorp.com/tutorials/terraform/eks?in=terraform/kubernetes)
+
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the aws cli. Run `setup-cloud.sh` to install the needed cloud utilities:
 
 ```
-./setup-cloud.sh
+./setup-cloud.sh aws
 ```
 
-Fill in these bash variables for convenience:
+Authenticate to your [aws account with the aws cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) and test by listing eks clusters:
+
+```
+aws eks list-clusters --profile $aws_profile --region $aws_region
+```
+
+Fill in these bash variables for the arguments we will pass to the deploy script:
 
 ```
 model_name=
-aws_profile_name=
+aws_profile=
 docker_image_tag=
 aws_registry_url=
 cluster_name=
@@ -182,19 +189,100 @@ For example:
 
 ```
 model_name=critterblock
-aws_profile_name=186900524924_Sandbox-Developer
+aws_profile=1234567890_Sandbox-Developer
 docker_image_tag=v5
-aws_registry_url=186900524924.dkr.ecr.us-west-2.amazonaws.com
-cluster_name=octoml-sandbox-sxq590bv
+aws_registry_url=1234567890.dkr.ecr.us-west-2.amazonaws.com
+cluster_name=test-cluster
 aws_region=us-west-2
 ```
 
-Run the following script to push the local container to an AWS ECR repo and install a sample helm chart to the EKS cluster:
-
+Run the `deploy_to_eks.sh` script to create an ECR repository, push your image to it, and configure kubectl to connect to your cluster:
 
 ```
-./deploy_to_eks.sh ${model_name} ${aws_profile_name} ${docker_image_tag} ${aws_registry_url} ${cluster_name} ${aws_region}
+./deploy_to_eks.sh $model_name $aws_profile $docker_image_tag $aws_registry_url $cluster_name $aws_region
+
 ```
+
+Check the status of the helm deployment:
+
+```
+helm list -n ${model_name}
+```
+
+See the sections below to deploy your model to different cloud providers.
+
+### Using Google GKE
+
+If you don't already have a GKE cluster set up, follow the guide from GCP to set one up, or optionally use Terraform:
+
+- [GKE Quickstart: Create a GKE Cluster](https://cloud.google.com/kubernetes-engine/docs/deploy-app-cluster#create_cluster)
+- [Provision a GKE Cluster (Google Cloud)](https://learn.hashicorp.com/tutorials/terraform/gke?in=terraform/kubernetes)
+
+In order to push your image to Artifact Registry, make sure that the [Artifact Registry API](https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images#before-you-begin) is enabled for your project.
+
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the gcloud cli. Run `setup-cloud.sh` to install the needed cloud utilities:
+
+```
+./setup-cloud.sh gcloud
+```
+
+Set up the gcloud CLI by following the [docs to initialize and authorize](https://cloud.google.com/sdk/docs/initializing) and test by listing gke clusters:
+
+```
+gcloud container clusters list
+```
+
+registry url ${REGION}-docker.pkg.dev/${PROJECT_NAME}/${MODEL_NAME}
+
+Fill in these bash variables for the arguments we will pass to the deploy script:
+
+```
+model_name=
+gcp_project_id=
+docker_image_tag=
+cluster_name=
+gcp_region=
+```
+
+For example:
+
+```
+model_name=critterblock
+gcp_project_id=test-project-12345
+docker_image_tag=v5
+cluster_name=test-cluster
+gcp_region=us-central1
+```
+
+Run the `deploy_to_eks.sh` script to create an artifact repository, push your image to it, and configure kubectl to connect to your cluster:
+
+```
+./deploy_to_gke.sh $model_name $gcp_project_id $docker_image_tag $cluster_name $aws_region
+
+```
+
+Check the status of the helm deployment:
+
+```
+helm list -n ${model_name}
+```
+
+### Using Azure AKS
+
+If you don't already have an AKS cluster set up, follow the guides from Azure to set one up, or optionally use Terraform:
+
+- [Quickstart: Deploy an Azure Kubernetes Service cluster using the Azure CLI](https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-portal#create-an-aks-cluster)
+- [Provision an AKS Cluster (Azure)](https://learn.hashicorp.com/tutorials/terraform/aks?in=terraform/kubernetes)
+
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the azure cli. Run `setup-cloud.sh` to install the needed cloud utilities:
+
+```
+./setup-cloud.sh azure
+```
+
+Set up the Azure CLI 
+
+
 
 Check the status of the helm deployment:
 
@@ -204,7 +292,7 @@ helm list -n ${model_name}
 
 ## Inference on Cloud
 
-Finally, run inferences on the container deployed to EKS
+Finally, run inferences on the container deployed to the cluster.
 
 Once the helm deploy completes, port-forward the EKS deployment's triton GRPC endpoint to localhost:
 

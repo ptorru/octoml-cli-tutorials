@@ -51,6 +51,6 @@ fi
 
 helm repo update octoml-cli-tutorials
 
-helm install "$MODEL_NAME" octoml-cli-tutorials/demo -n "$MODEL_NAME" --create-namespace --values "values-${MODEL_NAME}.yaml" --atomic
+helm install "$MODEL_NAME" octoml-cli-tutorials/demo -n "$MODEL_NAME" --create-namespace --values "values-${MODEL_NAME}.yaml" --atomic --timeout 7m
 
 rm "values-$MODEL_NAME.yaml"
