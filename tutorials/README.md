@@ -3,8 +3,9 @@
 The demos in this directory will walk you through:
 
 - ML model container generation using the `octoml` CLI
-- Container deployment and inference locally via docker
-- Container deployment and inference via Amazon Elastic Kubernetes Service (EKS)
+- Local container deployment and inference via docker
+- Remote container deployment and inference via Amazon Elastic Kubernetes Service (EKS)
+- Accelerating a model to save on cloud costs by connecting to the OctoML platform
 
 Three example model setups are provided for you to play with:
 
@@ -236,6 +237,40 @@ To clean up the environment or if you want to try other live demos on EKS, stop 
 helm uninstall ${model_name} -n ${model_name}
 ```
 
+## Accelerating your model on different hardware targets
+
+To access advanced features like model acceleration, you will need to [sign up](https://learn.octoml.ai/private-preview) for an OctoML Platform account. Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to finish setting up your account. Next, generate an API access token [here](https://app.octoml.ai/account/settings) and call `octoml setup acceleration` to store your API access token in the CLI.
+
+`octoml setup acceleration` is an interactive help wizard that not only prompts you for the API access token but also helps you populate the input configuration file (`octoml.yaml`) with other fields required for acceleration, including hardware and (for dynamically shaped models only) the model's input shapes. Beware that hardware selection requires that you click <space> and then <return> to confirm your selection.
+
+
+```
+octoml setup acceleration
+
+Updated octoml.yaml with the new hardware targets aws_c5.12xlarge - Cascade Lake - 48 vCP
+```
+
+Now, you are ready to run accelerated packaging, which returns you the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -a` for full acceleration mode.
+
+
+```
+octoml package -e
+```
+
+Now, verify that you've successfully built an accelerated container. 
+
+```
+docker images | head
+```
+
+You can now push the local container to a remote container repository (e.g. ECR) per the instructions above, then run inferences against the container on a remote machine with an architecture matching the one you've accelerated the model for.
+
+If you wish to locally deploy and test inferences against the accelerated container, you may run the following command, but note that it only works if the local machine on which you're running the CLI has the same hardware architecture as the hardware you accelerated the model for (e.g. if you are running the CLI on an M1 mac, you can only run deployment on your local mac successfully if you accelerated your model on a Graviton instance, as both of them share the ARM64 architecture).
+
+```
+octoml deploy -e
+```
+
 ## Troubleshooting
 
 To check for Kubernetes deployment info, run:
@@ -249,3 +284,5 @@ To get the logs for a failed pod deployment, run the above and modify the pod na
 ```
 kubectl logs pod/demo-6f45998bbb-6jnlq -n ${model_name}
 ```
+
+For Torchscript models traced on a GPU, containers will not be able to be accelerated for nor run on CPUs in the local CLI. Please sign up for an OctoML account and upgrade to authenticated usage per the instructions above if this use case is applicable for you.
