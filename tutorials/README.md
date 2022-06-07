@@ -249,16 +249,16 @@ $ octoml setup acceleration
 
 Updated octoml.yaml with the new hardware targets aws_c5.12xlarge - Cascade Lake - 48 vCP
 ```
-  
 
-Now, you are ready to run accelerated packaging, which returns you the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -a` for full acceleration mode.
+
+Now, you are ready to run accelerated packaging, which returns you the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -a` for full acceleration mode. See the below table for differences.
 
 
 ```shell
 $ octoml package -e
 ```
 
-Now, verify that you've successfully built an accelerated container. 
+Now, verify that you've successfully built an accelerated container.
 
 ```shell
 $ docker images | head
@@ -271,6 +271,18 @@ If you wish to locally deploy and test inferences against the accelerated contai
 ```shell
 $ octoml deploy -e
 ```
+
+## Express Acceleration Mode and Full Acceleration Mode
+
+The following table explains the difference between the two modes
+
+
+| Name | Express Acceleration Mode | Full Acceleration Mode |
+|---|---|---|
+| Time   | 20 Minutes  | Several Hours |
+| Command | `octoml package -e` | `octoml package -a` |
+| Purpose | Most performant package out of all optimizations attempted within 20 minutes |  Most performant package out of full optimizations attempted over several hours |
+
 
 ## Troubleshooting
 
