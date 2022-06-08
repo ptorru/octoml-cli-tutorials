@@ -22,8 +22,10 @@ jobs:
       uses: ludeeus/action-shellcheck@1.1.0
   runtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
+
+    # Setup the working directory
     - uses: actions/checkout@v2
     - name: Make parent dirs for octoml-bin
       run: mkdir -p target/debug
@@ -33,7 +35,7 @@ jobs:
       run: ls -lR target/debug/octoml
     - name: chmod octoml bin
       run: chmod 775 target/debug/octoml
-    - name: print octoml version
+    - name: Print octoml version
       run: $OCTOML -V
     - uses: actions/setup-python@v2
       with:
@@ -42,15 +44,45 @@ jobs:
       uses: abatilo/actions-poetry@v2.0.0
       with:
         poetry-version: 1.1.13
+
+    # Install dependencies
     - name: Run setup.sh
       run: cd tutorials && ./setup.sh
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
-    - name: build vision model
+
+    # Vision tutorial
+    - name: Build vision model
       run: cd tutorials/vision && $OCTOML deploy
-    - name: docker check running
+    - name: Docker check running
       run: sleep 4  && ps -ef | grep 8000
-    - name: execute vision model with native grpc
+    - name: Execute vision model with native grpc
       run: cd tutorials/vision && python run.py --triton
-    - name: execute vision model with python grpc
+    - name: Execute vision model with python grpc
       run: cd tutorials/vision && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Kill deployment
+      run: docker kill $(docker ps -q)
+
+    # Generation tutorial
+    - name: Build generation model
+      run: cd tutorials/generation && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Execute generation model with native grpc
+      run: cd tutorials/generation && python run.py --triton
+    - name: Execute generation model with python grpc
+      run: cd tutorials/generation && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Kill deployment
+      run: docker kill $(docker ps -q)
+
+    # QA tutorial
+    - name: Build question_answering model
+      run: cd tutorials/question_answering && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Execute question_answering model with native grpc
+      run: cd tutorials/question_answering && python run.py --triton
+    - name: Execute question_answering model with python grpc
+      run: cd tutorials/question_answering && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Kill deployment
+      run: docker kill $(docker ps -q)
