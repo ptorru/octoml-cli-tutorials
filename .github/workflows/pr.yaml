@@ -14,12 +14,14 @@ jobs:
   lint:
     name: shellcheck
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
     - name: Run Shellcheck
       uses: ludeeus/action-shellcheck@1.1.0
   runtest:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
     - name: Make parent dirs for octoml-bin
