@@ -43,10 +43,6 @@ jobs:
         python-version: 3.8
         cache: 'pip'
     - run: pip install -r tutorials/requirements.txt
-    - name: Install poetry
-      uses: abatilo/actions-poetry@v2.0.0
-      with:
-        poetry-version: 1.1.13
 
     # Install dependencies
     - name: Run setup.sh
@@ -59,7 +55,7 @@ jobs:
       id: cache-models
       uses: actions/cache@v3
       with:
-        key: bert-and-gpt2-onnx
+        key: cache-models-${{ hashFiles('tutorials/download_model.sh') }}
         path: |
           tutorials/question_answering/model.onnx
           tutorials/generation/gpt2-lm-head-10.onnx
@@ -67,29 +63,29 @@ jobs:
       name: Download models
       run: cd tutorials && ./download_model.sh
 
-    # # Vision tutorial
-    # - name: Build vision model
-    #   run: cd tutorials/vision && $OCTOML deploy
-    # - name: Docker check running
-    #   run: sleep 4  && ps -ef | grep 8000
-    # - name: Execute vision model with native grpc
-    #   run: cd tutorials/vision && python run.py --triton
-    # - name: Execute vision model with python grpc
-    #   run: cd tutorials/vision && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
-    # - name: Kill deployment
-    #   run: docker kill $(docker ps -q)
-    #
-    # # Generation tutorial
-    # - name: Build generation model
-    #   run: cd tutorials/generation && $OCTOML deploy
-    # - name: Docker check running
-    #   run: sleep 4  && ps -ef | grep 8000
-    # - name: Execute generation model with native grpc
-    #   run: cd tutorials/generation && python run.py --triton
-    # - name: Execute generation model with python grpc
-    #   run: cd tutorials/generation && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
-    # - name: Kill deployment
-    #   run: docker kill $(docker ps -q)
+    # Vision tutorial
+    - name: Build vision model
+      run: cd tutorials/vision && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Execute vision model with native grpc
+      run: cd tutorials/vision && python run.py --triton
+    - name: Execute vision model with python grpc
+      run: cd tutorials/vision && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Kill deployment
+      run: docker kill $(docker ps -q)
+    
+    # Generation tutorial
+    - name: Build generation model
+      run: cd tutorials/generation && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Execute generation model with native grpc
+      run: cd tutorials/generation && python run.py --triton
+    - name: Execute generation model with python grpc
+      run: cd tutorials/generation && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Kill deployment
+      run: docker kill $(docker ps -q)
 
     # QA tutorial
     - name: Build question_answering model
