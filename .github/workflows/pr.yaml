@@ -9,6 +9,7 @@ env:
   OCTOML_AGREE_TO_TERMS: 1
   OCTOML_TELEMETRY: false
   OCTOML: /home/runner/work/octoml-cli-tutorials/octoml-cli-tutorials/target/debug/octoml
+  RUST_BACKTRACE: full
 
 
 jobs:
@@ -24,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+
+    # Setup the working directory
     - uses: actions/checkout@v2
     - name: Make parent dirs for octoml-bin
       run: mkdir -p target/debug
@@ -33,24 +36,48 @@ jobs:
       run: ls -lR target/debug/octoml
     - name: chmod octoml bin
       run: chmod 775 target/debug/octoml
-    - name: print octoml version
+    - name: Print octoml version
       run: $OCTOML -V
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v3
       with:
         python-version: 3.8
-    - name: Install poetry
-      uses: abatilo/actions-poetry@v2.0.0
-      with:
-        poetry-version: 1.1.13
+        cache: 'pip'
+    - run: pip install -r tutorials/requirements.txt
+
+    # Install dependencies
     - name: Run setup.sh
       run: cd tutorials && ./setup.sh
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
-    - name: build vision model
+
+    # Cache huggingface models
+    - name: Cache huggingface
+      uses: actions/cache@v3
+      with:
+        key: cache-huggingface
+        path: ~/.cache/huggingface
+
+    # Download models
+    - name: Cache models
+      id: cache-models
+      uses: actions/cache@v3
+      with:
+        key: cache-models-${{ hashFiles('tutorials/download_model.sh') }}
+        path: |
+          tutorials/question_answering/model.onnx
+          tutorials/generation/gpt2-lm-head-10.onnx
+    - if: ${{ steps.cache-models.outputs.cache-hit != 'true' }}
+      name: Download models
+      run: cd tutorials && ./download_model.sh
+
+    # Vision tutorial
+    - name: Build vision model
       run: cd tutorials/vision && $OCTOML deploy
-    - name: docker check running
+    - name: Docker check running
       run: sleep 4  && ps -ef | grep 8000
-    - name: execute vision model with native grpc
+    - name: Execute vision model with native grpc
       run: cd tutorials/vision && python run.py --triton
-    - name: execute vision model with python grpc
+    - name: Execute vision model with python grpc
       run: cd tutorials/vision && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Kill deployment
+      run: docker kill $(docker ps -q)
