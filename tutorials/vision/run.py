@@ -53,7 +53,7 @@ def run_local():
     interpret_cat_scores(pred)
 
 
-def run_triton(port, hostname="localhost"):
+def run_triton(port, hostname="localhost", protocol="grpc"):
     server_url = f'{hostname}:{port}'
     # Preprocess input image
     image = Image.open("cat_input_images/prey1.jpeg")
@@ -61,7 +61,7 @@ def run_triton(port, hostname="localhost"):
     processed_img = image_preprocess([image])[0]
 
     # Initialize the model
-    model = TritonRemoteModel(server_url, "critterblock")
+    model = TritonRemoteModel(server_url, "critterblock", protocol=protocol)
 
     # Run inference
     pred = model(processed_img)
@@ -76,10 +76,11 @@ if __name__ == "__main__":
     parser.add_argument("--triton", default=False, action="store_true")
     parser.add_argument("--hostname", default="localhost")
     parser.add_argument("--port", default=8001)
+    parser.add_argument("--protocol", default="grpc", choices=["grpc", "http"])
     args = parser.parse_args()
 
     if args.local:
         run_local()
 
     if args.triton:
-        run_triton(args.port, args.hostname)
+        run_triton(args.port, args.hostname, args.protocol)

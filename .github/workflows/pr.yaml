@@ -79,5 +79,7 @@ jobs:
       run: cd tutorials/vision && python run.py --triton
     - name: Execute vision model with python grpc
       run: cd tutorials/vision && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Execute vision model with http
+      run: cd tutorials/vision && python run.py --triton --protocol http --port 8000
     - name: Kill deployment
       run: docker kill $(docker ps -q)
