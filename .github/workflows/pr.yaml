@@ -66,6 +66,27 @@ jobs:
       run: cd tutorials && ./setup.sh
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
+    - name: Run docker prune and check disk
+      run: |
+        docker system prune -a -f
+        df -h
+
+    # QA tutorial
+    - name: Build QA model
+      run: cd tutorials/question_answering && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Execute question_answering model with native grpc
+      run: cd tutorials/question_answering && python run.py --triton
+    - name: Execute question_answering model with python grpc
+      run: cd tutorials/question_answering && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Clean up after deployment
+      run: |
+        df -h
+        docker kill $(docker ps -q)
+        docker rmi $(docker images bert -q)
+        docker system df
+        df -h
 
     # Vision tutorial
     - name: Build vision model
@@ -80,3 +101,27 @@ jobs:
       run: cd tutorials/vision && python run.py --triton --protocol http --port 8000
     - name: Kill deployment
       run: docker kill $(docker ps -q)
+    - name: Clean up after deployment
+      run: |
+        df -h
+        docker kill $(docker ps -q)
+        docker rmi $(docker images critterblock -q)
+        docker system df
+        df -h
+
+    # Generation tutorial
+    - name: Build generation model
+      run: cd tutorials/generation && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Execute generation model with native grpc
+      run: cd tutorials/generation && python run.py --triton
+    - name: Execute generation model with python grpc
+      run: cd tutorials/generation && PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python python run.py --triton
+    - name: Clean up after deployment
+      run: |
+        df -h
+        docker kill $(docker ps -q)
+        docker rmi $(docker images gpt2-lm-head-10 -q)
+        docker system df
+        df -h
