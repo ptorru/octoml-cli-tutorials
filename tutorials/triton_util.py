@@ -1,12 +1,33 @@
 """Utility for interacting with models on Triton server
 
 For more examples, please refer to `Triton documentation
-<https://github.com/triton-inference-server/client/blob/main/src/python/library/tritonclient/grpc/__init__.py>`__
+<https://github.com/triton-inference-server/client/blob/main/src/python/library/tritonclient>`__
 and `examples<https://github.com/triton-inference-server/client/tree/main/src/python/examples>`__
 """
+
 import numpy as np
 from typing import Union, Tuple
 from attrdict import AttrDict
+try:
+    from tritonclient.http import (
+        InferenceServerClient as HttpClient,
+        InferInput as HttpInferInput
+    )
+    _has_http_client = True
+except ImportError:
+    _has_http_client = False
+
+try:
+    from tritonclient.grpc import (
+        InferenceServerClient as GrpcClient,
+        InferInput as GrpcInferInput
+    )
+    _has_grpc_client = True
+except ImportError:
+    _has_grpc_client = False
+
+if not (_has_grpc_client or _has_http_client):
+    raise ImportError("Cannot import tritonclient, please run `pip install tritonclient[http,grpc]`")
 
 
 class TritonRemoteModel:
@@ -31,15 +52,14 @@ class TritonRemoteModel:
             http.
         """
         if protocol == "grpc":
-            from tritonclient.grpc import (
-                InferenceServerClient,
-                InferInput
-            )
+            assert _has_grpc_client, "Cannot import tritonclient.grpc. Please run `pip install tritonclient[grpc]`"
+            InferenceServerClient = GrpcClient
+            InferInput = GrpcInferInput
         else:
-            from tritonclient.http import (
-                InferenceServerClient,
-                InferInput
-            )
+            assert _has_http_client, "Cannot import tritonclient.http. Please run `pip install tritonclient[http]`"
+            InferenceServerClient = HttpClient
+            InferInput = HttpInferInput
+
         self._client = InferenceServerClient(url)
         self._name = model_name
         self._version = model_version
