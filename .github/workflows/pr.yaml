@@ -44,19 +44,6 @@ jobs:
         cache: 'pip'
     - run: pip install -r tutorials/requirements.txt
 
-    # Install dependencies
-    - name: Run setup.sh
-      run: cd tutorials && ./setup.sh
-    - name: Run setup-cloud.sh
-      run: cd tutorials && ./setup-cloud.sh
-
-    # Cache huggingface models
-    - name: Cache huggingface
-      uses: actions/cache@v3
-      with:
-        key: cache-huggingface
-        path: ~/.cache/huggingface
-
     # Download models
     - name: Cache models
       id: cache-models
@@ -66,9 +53,19 @@ jobs:
         path: |
           tutorials/question_answering/model.onnx
           tutorials/generation/gpt2-lm-head-10.onnx
-    - if: ${{ steps.cache-models.outputs.cache-hit != 'true' }}
-      name: Download models
-      run: cd tutorials && ./download_model.sh
+
+    # Cache huggingface models
+    - name: Cache huggingface
+      uses: actions/cache@v3
+      with:
+        key: cache-huggingface
+        path: ~/.cache/huggingface
+
+    # Install dependencies
+    - name: Run setup.sh
+      run: cd tutorials && ./setup.sh
+    - name: Run setup-cloud.sh
+      run: cd tutorials && ./setup-cloud.sh
 
     # Vision tutorial
     - name: Build vision model
