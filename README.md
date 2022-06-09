@@ -12,7 +12,7 @@ and K8s cluster, but the containers can be used in any environment that supports
 
 **Model framework coverage**: We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
 
-**Hardware coverage**: We support x86, CUDA machines, and ARM64 machines (including M1 Macs).
+**Hardware coverage**: You may run our CLI on x86, CUDA machines, and ARM64 machines (including M1 Macs). In unauthenticated usage, the containers built via the CLI may only be deployed on hardware architectures matching the local machine on which you ran `octoml package`. In authenticated usage, you may create accelerated model containers deployable to any x86, CUDA, and ARM64 remote cloud instance, even if that hardware architecture does not match that of your local machine on which you ran `octoml package`.
 
 **OS coverage**: We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
 
