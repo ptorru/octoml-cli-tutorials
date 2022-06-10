@@ -1,13 +1,13 @@
 # OctoML CLI
 
 The `octoml` CLI helps you create deployable containers for your ML models using the OctoML Platform, in the terminal or within your CI/CD pipeline.
-You can deploy and run inferences on the container locally for development and testing, then deploy the same container to the cloud.
+You can [deploy and run](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) inferences on the container locally for development and testing, then deploy the same container to the cloud.
 
 By use of this CLI application, you agree to OctoML’s [Terms of Service](https://octoml.ai/legals/terms-of-service/) and [Privacy Policy](https://octoml.ai/legals/privacy-policy/).
 
 ![OctoML CLI Example](https://www.datocms-assets.com/45680/1652749860-octoml_cli.gif)
 
-This repository contains multiple examples of deploying OctoML containers to any cloud environment given an image registry,
+This repository contains [multiple examples](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) of deploying OctoML containers to any cloud environment given an image registry,
 and K8s cluster, but the containers can be used in any environment that supports Docker.
 
 **Model framework coverage**: We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
@@ -23,6 +23,8 @@ To get started all you need to do is download the latest version of the OctoML C
 Once you have the tool you should be able to view the list of available commands by running `./octoml` in your current directory.
 
 To globally install move to an appropriate location like `/usr/local/bin` or add to your `PATH`.
+
+You can now jump straight into our [tutorials](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos)
 
 ## Core commands
 
@@ -47,7 +49,7 @@ OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others
 
 ## Deploying OctoML packages to production-grade microservices and applications
 
-See the tutorials folder for how to deploy OctoML model containers to downstream cloud registries like ECR and Kubernetes services like EKS.
+See the [tutorials](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) folder for how to deploy OctoML model containers to downstream cloud registries like ECR and Kubernetes services like EKS.
 
 ## Telemetry
 
