@@ -1,24 +1,73 @@
 """Utility for interacting with models on Triton server
 
 For more examples, please refer to `Triton documentation
-<https://github.com/triton-inference-server/client/blob/main/src/python/library/tritonclient/grpc/__init__.py>`__
+<https://github.com/triton-inference-server/client/blob/main/src/python/library/tritonclient>`__
 and `examples<https://github.com/triton-inference-server/client/tree/main/src/python/examples>`__
 """
+
 import numpy as np
 from typing import Union, Tuple
-from tritonclient.grpc import (
-    InferenceServerClient,
-    InferInput
-)
+from attrdict import AttrDict
+try:
+    from tritonclient.http import (
+        InferenceServerClient as HttpClient,
+        InferInput as HttpInferInput
+    )
+    _has_http_client = True
+except ImportError:
+    _has_http_client = False
+
+try:
+    from tritonclient.grpc import (
+        InferenceServerClient as GrpcClient,
+        InferInput as GrpcInferInput
+    )
+    _has_grpc_client = True
+except ImportError:
+    _has_grpc_client = False
+
+if not (_has_grpc_client or _has_http_client):
+    raise ImportError("Cannot import tritonclient, please run `pip install tritonclient[http,grpc]`")
 
 
 class TritonRemoteModel:
-    def __init__(self, url: str, model_name: str, model_version: str = ""):
+    def __init__(self, url: str, model_name: str, model_version: str = "", protocol: str = "grpc"):
+        """
+        A wrapper over model on Tirton server to behave like a local model.
+        After initializes, the model can take numpy array(s) as inputs and
+        return numpy array(s) as outputs using the selected protocols.
+
+        Args:
+            url: Address of the triton server
+            model_name: Name of the model
+            model_version: Version of the model. Default empty will let the server pick.
+            protocol: Choose over "GRPC" or "HTTP" as ways to communicate with the server.
+
+        Notes:
+            The triton inference server supports remote inferencing over both
+            http and gRPC. HTTP is ubiquitous and we expect most users to be
+            comfortable using the HTTP api and integrating it into their
+            network architecture. gRPC is another remote inferencing protocol
+            and it has much higher (network) performance and throughput than
+            http.
+        """
+        if protocol == "grpc":
+            assert _has_grpc_client, "Cannot import tritonclient.grpc. Please run `pip install tritonclient[grpc]`"
+            InferenceServerClient = GrpcClient
+            InferInput = GrpcInferInput
+        else:
+            assert _has_http_client, "Cannot import tritonclient.http. Please run `pip install tritonclient[http]`"
+            InferenceServerClient = HttpClient
+            InferInput = HttpInferInput
+
         self._client = InferenceServerClient(url)
         self._name = model_name
         self._version = model_version
         self._metadata = self._client.get_model_metadata(model_name, model_version)
+        if protocol == 'http':
+            self._metadata = AttrDict(self._metadata)
         self._infer_inputs = [InferInput(x.name, None, x.datatype) for x in self._metadata.inputs]
+        self._protocol = protocol
 
     @property
     def name(self) -> str:
@@ -39,6 +88,10 @@ class TritonRemoteModel:
     @property
     def backend(self):
         return self._metadata.platform
+
+    @property
+    def protocol(self) -> str:
+        return self._protocol
 
     def __str__(self):
         input_sig = tuple(x.name for x in self.inputs)
