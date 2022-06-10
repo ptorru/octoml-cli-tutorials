@@ -19,11 +19,18 @@ Three example model setups are provided for you to play with:
 
 In this section we will validate the environment and install some dependencies. Make sure you've globally installed the OctoML CLI, by moving the CLI binary to an appropriate location like `/usr/local/bin` or adding it to your `$PATH`.
 
-Verify you have the `octoml` cli installed:
+Verify you have the `octoml` cli installed and accept the tos if needed:
 
 ```shell
 $ octoml -V
-octoml 0.2.4 (d5d534e 2022-05-14 23:38:45)
+By use of this CLI application, you agree to OctoML’s terms of use and privacy policy.
+https://octoml.ai/legals/terms-of-service/
+https://octoml.ai/legals/privacy-policy/
+? Do you wish to continue? · yes
+octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
+
+$ octoml -V
+octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
 ```
 
 Verify you have python installed. You need Python3. Python3.10 users (e.g. Ubuntu Jammy) see our [Note on Python3.10](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials/vision#note-on-python310)
@@ -60,7 +67,7 @@ Run setup utility to install the python dependencies.
 ./setup.sh
 ```
 
-> Note: The following steps assume that your current working directory is one of the listed example model dirs above. Let's `cd` into the `vision` repository for example. 
+> Note: The following steps assume that your current working directory is one of the listed example model dirs above. Let's `cd` into the `vision` repository for example.
 
 Change Directory into the vision tutorial:
 
