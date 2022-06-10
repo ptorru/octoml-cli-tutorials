@@ -10,3 +10,6 @@ then
     echo "ERROR: docker not found. Please install docker: https://docs.docker.com/engine/install/"
     exit 1
 fi
+
+# Download pretrained model into tutorials
+./download_model.sh
