@@ -26,7 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-
     # Setup the working directory
     - uses: actions/checkout@v2
     - name: Make parent dirs for octoml-bin
@@ -46,10 +45,12 @@ jobs:
     - run: pip install -r tutorials/requirements.txt
 
     # Install dependencies
-    - name: Run setup.sh
+    - name: Run setup.sh --model=""
       run: cd tutorials && ./setup.sh
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
+    - name: Check disk space
+      run: df -h && docker system df
 
     # Vision tutorial
     - name: Build vision model
@@ -99,9 +100,11 @@ jobs:
 
     # Install dependencies
     - name: Run setup.sh
-      run: cd tutorials && ./setup.sh
+      run: cd tutorials && ./setup.sh --model="qa"
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
+    - name: Check disk space
+      run: df -h && docker system df
 
     # QA tutorial
     - name: Build QA model
@@ -151,9 +154,11 @@ jobs:
 
     # Install dependencies
     - name: Run setup.sh
-      run: cd tutorials && ./setup.sh
+      run: cd tutorials && ./setup.sh --model="gpt"
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
+    - name: Check disk space
+      run: df -h && docker system df
 
     # Generation tutorial
     - name: Build generation model
