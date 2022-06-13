@@ -19,7 +19,7 @@ Three example model setups are provided for you to play with:
 
 In this section we will validate the environment and install some dependencies. Make sure you've globally installed the OctoML CLI, by moving the CLI binary to an appropriate location like `/usr/local/bin` or adding it to your `$PATH`.
 
-Verify you have the `octoml` cli installed and accept the tos if needed:
+Verify you have the `octoml` CLI installed and accept the TOS if needed:
 
 ```shell
 $ octoml -V
