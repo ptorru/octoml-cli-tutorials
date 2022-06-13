@@ -6,11 +6,27 @@ on:
 
 env:
   OCTOML_EMPLOYEE: 1
+  OCTOML_AGREE_TO_TERMS: 1
+  OCTOML_TELEMETRY: false
+  OCTOML: /home/runner/work/octoml-cli-tutorials/octoml-cli-tutorials/target/debug/octoml
+  RUST_BACKTRACE: full
+
 
 jobs:
-  runtest:
+  lint:
+    name: shellcheck
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
+    - uses: actions/checkout@v2
+    - name: Run Shellcheck
+      uses: ludeeus/action-shellcheck@1.1.0
+
+  runtest-vision:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    # Setup the working directory
     - uses: actions/checkout@v2
     - name: Make parent dirs for octoml-bin
       run: mkdir -p target/debug
@@ -20,14 +36,134 @@ jobs:
       run: ls -lR target/debug/octoml
     - name: chmod octoml bin
       run: chmod 775 target/debug/octoml
-    - uses: actions/setup-python@v2
+    - name: Print octoml version
+      run: $OCTOML -V
+    - uses: actions/setup-python@v3
       with:
         python-version: 3.8
-    - name: Install poetry
-      uses: abatilo/actions-poetry@v2.0.0
-      with:
-        poetry-version: 1.1.13
-    - name: Run setup.sh
+        cache: 'pip'
+    - run: pip install -r tutorials/requirements.txt
+
+    # Install dependencies
+    - name: Run setup.sh --model=""
       run: cd tutorials && ./setup.sh
     - name: Run setup-cloud.sh
       run: cd tutorials && ./setup-cloud.sh
+    - name: Check disk space
+      run: df -h && docker system df
+
+    # Vision tutorial
+    - name: Build vision model
+      run: cd tutorials/vision && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Run tutorial test
+      run: cd tutorials && bash tests/test_tutorial.sh vision
+
+  runtest-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    # Setup the working directory
+    - uses: actions/checkout@v2
+    - name: Make parent dirs for octoml-bin
+      run: mkdir -p target/debug
+    - name: Download octoml-bin (tar.gz)
+      run: curl --fail ${{secrets.CLI_DOWNLOAD_LINK_UBUNTU}} --output octoml.tar.gz && tar xzf octoml.tar.gz && mv octoml target/debug/octoml
+    - name: Show Download
+      run: ls -lR target/debug/octoml
+    - name: chmod octoml bin
+      run: chmod 775 target/debug/octoml
+    - name: Print octoml version
+      run: $OCTOML -V
+    - uses: actions/setup-python@v3
+      with:
+        python-version: 3.8
+        cache: 'pip'
+    - run: pip install -r tutorials/requirements.txt
+
+    # Cache huggingface models
+    - name: Cache huggingface
+      uses: actions/cache@v3
+      with:
+        key: cache-huggingface-qa
+        path: ~/.cache/huggingface
+
+    # Download models
+    - name: Cache models
+      id: cache-models
+      uses: actions/cache@v3
+      with:
+        key: cache-models-qa-${{ hashFiles('tutorials/download_model.sh') }}
+        path: |
+          tutorials/question_answering/model.onnx
+
+    # Install dependencies
+    - name: Run setup.sh
+      run: cd tutorials && ./setup.sh --model="qa"
+    - name: Run setup-cloud.sh
+      run: cd tutorials && ./setup-cloud.sh
+    - name: Check disk space
+      run: df -h && docker system df
+
+    # QA tutorial
+    - name: Build QA model
+      run: cd tutorials/question_answering && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Run tutorial test
+      run: cd tutorials && bash tests/test_tutorial.sh question_answering
+   
+  runtest-generation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    # Setup the working directory
+    - uses: actions/checkout@v2
+    - name: Make parent dirs for octoml-bin
+      run: mkdir -p target/debug
+    - name: Download octoml-bin (tar.gz)
+      run: curl --fail ${{secrets.CLI_DOWNLOAD_LINK_UBUNTU}} --output octoml.tar.gz && tar xzf octoml.tar.gz && mv octoml target/debug/octoml
+    - name: Show Download
+      run: ls -lR target/debug/octoml
+    - name: chmod octoml bin
+      run: chmod 775 target/debug/octoml
+    - name: Print octoml version
+      run: $OCTOML -V
+    - uses: actions/setup-python@v3
+      with:
+        python-version: 3.8
+        cache: 'pip'
+    - run: pip install -r tutorials/requirements.txt
+
+    # Cache huggingface models
+    - name: Cache huggingface
+      uses: actions/cache@v3
+      with:
+        key: cache-huggingface-generation
+        path: ~/.cache/huggingface
+
+    # Download models
+    - name: Cache models
+      id: cache-models
+      uses: actions/cache@v3
+      with:
+        key: cache-models-gpt-${{ hashFiles('tutorials/download_model.sh') }}
+        path: |
+          tutorials/generation/model.onnx
+
+    # Install dependencies
+    - name: Run setup.sh
+      run: cd tutorials && ./setup.sh --model="gpt"
+    - name: Run setup-cloud.sh
+      run: cd tutorials && ./setup-cloud.sh
+    - name: Check disk space
+      run: df -h && docker system df
+
+    # Generation tutorial
+    - name: Build generation model
+      run: cd tutorials/generation && $OCTOML deploy
+    - name: Docker check running
+      run: sleep 4  && ps -ef | grep 8000
+    - name: Run tutorial test
+      run: cd tutorials && bash tests/test_tutorial.sh generation
