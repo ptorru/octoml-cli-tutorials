@@ -357,6 +357,27 @@ To clean up the environment or if you want to try other live demos on EKS, stop 
 helm uninstall ${model_name} -n ${model_name}
 ```
 
+## Metrics
+Prometheus metrics from the Triton server are exposed on `localhost:8002/metrics` by default. How metrics are scraped will depend on how you are operating your Prometheus server.
+
+If you are using the Prometheus Operator, a ServiceMonitor resource can be configured by setting the following values:
+```
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+```
+
+**NOTE:** By default, the Prometheus ServiceMonitor resource will be created in the same namespace as the OctoML deployment. To change this behavior, set the `prometheus.serviceMonitor.namespace` value to the namespace in which you wish to create the ServiceMonitor. The namespace must be an existing one, otherwise deployment will fail.
+
+If you have Prometheus Kubernetes service discovery enabled on your server you can add annotations to allow Prometheus to scrape the pod by setting the following values:
+```
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: false
+```
+
 ### Troubleshooting
 
 To check for Kubernetes deployment info, run:
