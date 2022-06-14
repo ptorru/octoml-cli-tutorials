@@ -2,7 +2,15 @@ apiVersion: v1
 entries:
   demo:
   - apiVersion: v2
-    created: "2022-06-13T14:56:42.60723134-07:00"
+    created: "2022-06-14T16:03:39.053279515-07:00"
+    description: A Helm chart for the OctoML kubernetes triton demo
+    digest: 783bc5b153ca17c2a9f90c217468485ac737b744ff7cdf3eb3ba42ae86430f8f
+    name: demo
+    urls:
+    - demo-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    created: "2022-06-14T16:03:39.050203413-07:00"
     description: A Helm chart for the OctoML kubernetes triton demo
     digest: 8fae2906788a43132b875adee339dff6ec93c3238abead735fe826d627f85a95
     name: demo
@@ -10,7 +18,7 @@ entries:
     - demo-0.2.3.tgz
     version: 0.2.3
   - apiVersion: v2
-    created: "2022-06-13T14:56:42.606417622-07:00"
+    created: "2022-06-14T16:03:39.049973071-07:00"
     description: A Helm chart for the OctoML kubernetes triton demo
     digest: 28748a9ba1354026aeffa25b9195eaaa36978ff6de2549092e859fb6b2c19c87
     name: demo
@@ -18,7 +26,7 @@ entries:
     - demo-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v2
-    created: "2022-06-13T14:56:42.60551318-07:00"
+    created: "2022-06-14T16:03:39.049717375-07:00"
     description: A Helm chart for the OctoML kubernetes triton demo
     digest: c30fff6e60c370ffab6be927dd7bd06606ad40ac1ba9e3c7298a9c86eb2818cf
     name: demo
@@ -26,11 +34,11 @@ entries:
     - demo-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v2
-    created: "2022-06-13T14:56:42.605006762-07:00"
+    created: "2022-06-14T16:03:39.049503166-07:00"
     description: A Helm chart for the OctoML kubernetes triton demo
     digest: 866d287f5e920444997ea5f0453dd038fb6846b104539b14e1f34caea60e09ac
     name: demo
     urls:
     - demo-0.2.0.tgz
     version: 0.2.0
-generated: "2022-06-13T14:56:42.603952581-07:00"
+generated: "2022-06-14T16:03:39.049147385-07:00"
