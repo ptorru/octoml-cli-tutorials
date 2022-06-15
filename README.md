@@ -18,34 +18,39 @@ and K8s cluster, but the containers can be used in any environment that supports
 
 ## Getting started
 
-To get started all you need to do is download the latest version of the OctoML CLI using `wget` or `curl`.
+1. To get started all you need to do is download the latest version of the OctoML CLI using `wget` or `curl`.
 
-Once you have the tool you should be able to view the list of available commands by running `./octoml` in your current directory.
+2. Once you have the tool you should be able to view the list of available commands by running `./octoml` in your current directory.
 
-To globally install move to an appropriate location like `/usr/local/bin` or add to your `PATH`.
+3. Now move the binary to an appropriate location like `/usr/local/bin` by running the following command in your current directory: `mv octoml /usr/local/bin`
 
-You can now jump straight into our [tutorials](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos)
+4. Ensure you have a Docker daemon installed and up running, by running `docker ps`. If the command is not found, you need to install Docker: see [here](https://runnable.com/docker/install-docker-on-macos) for MacOS, here for [Linux](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-linux.html), and here for [Windows](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-windows.html).
+
+
+
 
 ## Core commands
 
 **Note: that you do not need to provide an OctoML API access token at this stage.**
 
-`octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
+1. `octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
 
-`octoml package`: Builds a deployment-ready Docker container for the models specified in the input configuration file. The input configuration file is required for this command to complete successfully.
+2. `octoml package`: Builds a deployment-ready Docker container for the models specified in the input configuration file. The input configuration file is required for this command to complete successfully. The first time you ever run this command takes about 20 minutes because it downloads a 12GB base image; future runs will be nearly instantaneous because the base image will be cached.
 
-`octoml deploy`: Deploys a Docker container to a locally hosted endpoint. After completion of this command, you may run `docker ps` to confirm the a container has been successfully generated for you.
+3. `octoml deploy`: Deploys a Docker container to a locally hosted endpoint. After completion of this command, you may run `docker ps` to confirm the a container has been successfully generated for you.
+
+4. To run inferences against the container, follow our [tutorials](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) for examples on how to configure an appropriate `run.py` file for your specific model.
 
 **You can run the commands above with or without an OctoML account. If you run them without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform.**
 
 ## Sign up for an OctoML account/ authenticate to access advanced features including model acceleration and benchmarking
 OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview) and create an API token using the OctoML web UI.
 
-`octoml setup acceleration`: Prompts you for information required for acceleration, including an OctoML API access token, hardware, and dynamic shape disambiguation. Populates the information into your input configuration file for downstream use in `octoml package` and `octoml deploy`. If you do not wish to do so, please make sure to configure your input configuration file manually with the requisite fields for acceleration before calling `octoml package -e` or `octoml package -a`.
+5. `octoml setup acceleration`: Prompts you for information required for acceleration, including an OctoML API access token, hardware, and dynamic shape disambiguation. Populates the information into your input configuration file for downstream use in `octoml package` and `octoml deploy`. If you do not wish to do so, please make sure to configure your input configuration file manually with the requisite fields for acceleration before calling `octoml package -e` or `octoml package -a`.
 
-`octoml package -e`: We recommend running acceleration in express mode, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency via a fuller exploration of the optimization space, run `octoml package -a` for full acceleration mode. Both modes return the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. After this step we recommend that you directly send this built container to a remote cloud repository for downstream remote usage.
+6. `octoml package -e`: We recommend running acceleration in express mode, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency via a fuller exploration of the optimization space, run `octoml package -a` for full acceleration mode. Both modes return the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. After this step we recommend that you directly send this built container to a remote cloud repository for downstream remote usage.
 
-`octoml deploy -a` or `octoml deploy -e`: Only run this command if you're on hardware with an architecture matching the cloud instance for which you have accelerated the model. If you previously ran `package` on more than one hardware target, make sure to call `deploy` with a specific hardware input.
+(Optional) `octoml deploy -a` or `octoml deploy -e`: Only run this command if you're on hardware with an architecture matching the cloud instance for which you have accelerated the model. If you previously ran `package` on more than one hardware target, make sure to call `deploy` with a specific hardware input.
 
 ## Deploying OctoML packages to production-grade microservices and applications
 
