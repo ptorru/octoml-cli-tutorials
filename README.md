@@ -7,15 +7,6 @@ By use of this CLI application, you agree to OctoML’s [Terms of Service](https
 
 ![OctoML CLI Example](https://www.datocms-assets.com/45680/1652749860-octoml_cli.gif)
 
-This repository contains [multiple examples](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) of deploying OctoML containers to any cloud environment given an image registry,
-and K8s cluster, but the containers can be used in any environment that supports Docker.
-
-**Model framework coverage**: We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
-
-**Hardware coverage**: You may run our CLI on x86, CUDA machines, and ARM64 machines (including M1 Macs). In unauthenticated usage, the containers built via the CLI may only be deployed on hardware architectures matching the local machine on which you ran `octoml package`. In authenticated usage, you may create accelerated model containers deployable to any x86, CUDA, and ARM64 remote cloud instance, even if that hardware architecture does not match that of your local machine on which you ran `octoml package`.
-
-**OS coverage**: We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
-
 ## Getting started
 
 1. To get started all you need to do is download the latest version of the OctoML CLI using `wget` or `curl`.
@@ -26,8 +17,16 @@ and K8s cluster, but the containers can be used in any environment that supports
 
 4. Ensure you have a Docker daemon installed and up running, by running `docker ps`. If the command is not found, you need to install Docker: see [here](https://runnable.com/docker/install-docker-on-macos) for MacOS, here for [Linux](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-linux.html), and here for [Windows](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-windows.html).
 
+**Model framework coverage**: 
+We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
 
+**Hardware coverage**: 
+You may run our CLI on x86, CUDA machines, and ARM64 machines (including M1 Macs). In unauthenticated usage, the containers built via the CLI may only be deployed on hardware architectures matching the local machine on which you ran `octoml package`. In authenticated usage, you may create accelerated model containers deployable to any x86, CUDA, and ARM64 remote cloud instance, even if that hardware architecture does not match that of your local machine on which you ran `octoml package`.
 
+**OS coverage**: 
+We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
+
+This repository contains [multiple examples](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) of deploying OctoML containers to any cloud environment given an image registry and K8s cluster, but the containers can be used in any environment that supports Docker.
 
 ## Core commands
 
