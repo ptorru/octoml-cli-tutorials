@@ -9,7 +9,7 @@ By use of this CLI application, you agree to OctoML’s [Terms of Service](https
 
 ## Getting started
 
-1. To get started all you need to do is download the latest version of the OctoML CLI using `wget` or `curl`.
+1. To get started all you need to do is download the latest version of the OctoML CLI from [here](https://try.octoml.ai/cli/).
 
 2. Once you have the tool you should be able to view the list of available commands by running `./octoml` in your current directory.
 
