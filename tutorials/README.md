@@ -113,6 +113,8 @@ models:
 
 Now use this file to generate a docker image and start a docker container running triton -- this will deploy a docker container locally on your machine.
 
+> Note: This will pull down a base image that is 12G. Ensure you have enough disk space for this operation.
+
 ```
 $ octoml deploy
  ∙∙∙ Models imported
