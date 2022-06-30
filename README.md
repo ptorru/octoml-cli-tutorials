@@ -17,6 +17,8 @@ By use of this CLI application, you agree to OctoML’s [Terms of Service](https
 
 4. Ensure you have a Docker daemon installed and up running, by running `docker ps`. If the command is not found, you need to install Docker: see [here](https://runnable.com/docker/install-docker-on-macos) for MacOS, here for [Linux](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-linux.html), and here for [Windows](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-windows.html).
 
+5. Now you have two choices: either immediately start deploying your own model by jumping to the [Core Commands section below](in Vision, Question Answering, Text Generation), or follow one of our [examples](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) in Vision, Question Answering, Text Generation to see an end-to-end user journey first.
+
 **Model framework coverage**: 
 We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
 
@@ -26,11 +28,9 @@ You may run our CLI on x86, CUDA machines, and ARM64 machines (including M1 Macs
 **OS coverage**: 
 We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
 
-This repository contains [multiple examples](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) of deploying OctoML containers to any cloud environment given an image registry and K8s cluster, but the containers can be used in any environment that supports Docker.
+## Core commands to deploy your own model using our CLI
 
-## Core commands
-
-**Note: that you do not need to provide an OctoML API access token at this stage.**
+**Note: that you do not need to provide an OctoML API access token at this stage. If you run these commands without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform.**
 
 1. `octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
 
@@ -38,14 +38,12 @@ This repository contains [multiple examples](https://github.com/octoml/octoml-cl
 
 3. `octoml deploy`: Deploys a Docker container to a locally hosted endpoint. After completion of this command, you may run `docker ps` to confirm the a container has been successfully generated for you.
 
-4. To run inferences against the container, follow our [tutorials](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) for examples on how to configure an appropriate `run.py` file for your specific model.
-
-**You can run the commands above with or without an OctoML account. If you run them without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform.**
+4. To run inferences against the container, follow our [tutorials](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) for examples on how to configure an appropriate `run.py` file for your specific model. `run.py` provides a standard schema on how to run inferences against the OctoML-deployed model, while requiring you to customize the pre- and post-processing code for your own model use case.
 
 ## Sign up for an OctoML account/ authenticate to access advanced features including model acceleration and benchmarking
 OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview) and create an API token using the OctoML web UI.
 
-5. `octoml setup acceleration`: Prompts you for information required for acceleration, including an OctoML API access token, hardware, and dynamic shape disambiguation. Populates the information into your input configuration file for downstream use in `octoml package` and `octoml deploy`. If you do not wish to do so, please make sure to configure your input configuration file manually with the requisite fields for acceleration before calling `octoml package -e` or `octoml package -a`.
+5. `octoml setup acceleration`: Prompts you for information required for acceleration, including an OctoML API access token, hardware, and dynamic shape disambiguation. Populates the information into your input configuration file for downstream use in `octoml package` and `octoml deploy`. If you do not wish to do so, please make sure to configure your input configuration file manually with the requisite fields for acceleration before calling `octoml package -e` or `octoml package -a`. **If you get stuck trying to select hardware, make sure to press the space button before the return button.**
 
 6. `octoml package -e`: We recommend running acceleration in express mode, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency via a fuller exploration of the optimization space, run `octoml package -a` for full acceleration mode. Both modes return the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. After this step we recommend that you directly send this built container to a remote cloud repository for downstream remote usage.
 
