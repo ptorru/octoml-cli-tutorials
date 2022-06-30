@@ -15,9 +15,23 @@ By use of this CLI application, you agree to OctoML’s [Terms of Service](https
 
 3. Now move the binary to an appropriate location like `/usr/local/bin` by running the following command in your current directory: `mv octoml /usr/local/bin`
 
-4. Ensure you have a Docker daemon installed and up running, by running `docker ps`. If the command is not found, you need to install Docker: see [here](https://runnable.com/docker/install-docker-on-macos) for MacOS, here for [Linux](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-linux.html), and here for [Windows](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-windows.html).
+4. Verify the `octoml` command works and accept the TOS if needed:
 
-5. Now you have two choices: either immediately start deploying your own model by jumping to the [Core Commands section below](in Vision, Question Answering, Text Generation), or follow one of our [examples](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) in Vision, Question Answering, Text Generation to see an end-to-end user journey first.
+```shell
+$ octoml -V
+By use of this CLI application, you agree to OctoML’s terms of use and privacy policy.
+https://octoml.ai/legals/terms-of-service/
+https://octoml.ai/legals/privacy-policy/
+? Do you wish to continue? · yes
+octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
+
+$ octoml -V
+octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
+```
+
+5. Ensure you have a Docker daemon installed and up running, by running `docker ps`. If the command is not found, you need to install Docker: see [here](https://runnable.com/docker/install-docker-on-macos) for MacOS, here for [Linux](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-linux.html), and here for [Windows](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-windows.html).
+
+6. Now you have two choices: either immediately start deploying your own model by jumping to the [Core Commands section below](https://github.com/octoml/octoml-cli-tutorials#core-commands-to-deploy-your-own-model-using-our-cli), or follow one of our [examples](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) in Vision, Question Answering, Text Generation to see an end-to-end user journey first.
 
 **Model framework coverage**: 
 We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
