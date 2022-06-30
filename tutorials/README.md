@@ -1,6 +1,6 @@
-# Demos
+# End-to-end examples
 
-The demos in this directory will walk you through:
+The examples in this directory will walk you through:
 
 - ML model container generation using the `octoml` CLI
 - Local container deployment and inference via docker
@@ -15,42 +15,18 @@ Three example model setups are provided for you to play with:
 - generation/             -- GPT2 in ONNX, calling into the huggingface transformers library for generation at runtime
 ```
 
-## Setup Environment
+## Getting started
 
-In this section we will validate the environment and install some dependencies.
+1. First make sure you've followed all the steps [linked here](https://github.com/octoml/octoml-cli-tutorials#getting-started) to download the CLI.
 
-Download the [Octoml CLI](https://try.octoml.ai/cli/).
-
-Make sure you've globally installed the OctoML CLI, by moving the CLI binary to an appropriate location like `/usr/local/bin` or adding it to your `$PATH`.
-
-Verify the `octoml` command works and accept the TOS if needed:
-
-```shell
-$ octoml -V
-By use of this CLI application, you agree to OctoML’s terms of use and privacy policy.
-https://octoml.ai/legals/terms-of-service/
-https://octoml.ai/legals/privacy-policy/
-? Do you wish to continue? · yes
-octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
-
-$ octoml -V
-octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
-```
-
-Verify you have python installed. You need Python3. Python3.10 users (e.g. Ubuntu Jammy) see our [Note on Python3.10](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials/vision#note-on-python310)
+2. Verify you have python installed. You need Python3. Python3.10 users (e.g. Ubuntu Jammy) see our [Note on Python3.10](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials/vision#note-on-python310)
 
 ```shell
 $ python --version
 Python 3.8.4
 ```
 
-Verify you have a running docker daemon:
-
-```shell
-docker ps
-```
-
-Clone the tutorials repo:
+3. Clone the tutorials repo:
 
 ```shell
 git clone https://github.com/octoml/octoml-cli-tutorials
@@ -58,14 +34,14 @@ cd octoml-cli-tutorials
 cd tutorials
 ```
 
-We recommend that you use a Python virtual environment:
+4. We recommend that you set up a Python virtual environment:
 
 ```shell
 python -m venv venv
 source venv/bin/activate
 ```
 
-Run setup utility to install the python dependencies.
+5. Run setup utility to install the python dependencies.
 
 ```shell
 ./setup.sh
@@ -73,7 +49,7 @@ Run setup utility to install the python dependencies.
 
 > Note: The following steps assume that your current working directory is one of the listed example model dirs above. Let's `cd` into the `vision` repository for example.
 
-Change Directory into the vision tutorial:
+6. Change Directory into the vision tutorial:
 
 ```
 $ cd vision
