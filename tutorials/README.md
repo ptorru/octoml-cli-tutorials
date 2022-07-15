@@ -1,30 +1,31 @@
-# End-to-end examples
+# Demos
 
-The examples in this directory will walk you through:
+The end-to-end demos in this directory will walk you through:
 
 - ML model container generation using the `octoml` CLI
-- Local container deployment and inference via docker
+- Local container deployment and inference via Docker
 - Remote container deployment and inference via Amazon Elastic Kubernetes Service (EKS) and Google Kubernetes Engine (GKE)
 - Accelerating a model to save on cloud costs by connecting to the OctoML platform
 
-Three example model setups are provided for you to play with:
+Three example model setups are provided for you to explore:
 
 ```
-- vision/                 -- A classification vision model in ONNX to detect whether a cat is trying to bring their prey into your house
-- question_answering/    -- BERT in ONNX, using the huggingface transformers library for pre and post processing
-- generation/             -- GPT2 in ONNX, calling into the huggingface transformers library for generation at runtime
+- vision/                 -- A classification vision model in ONNX, that detects whether your cat is trying to bring prey into the house
+- question_answering/     -- BERT in ONNX, using the HuggingFace transformers library for pre- and post-processing
+- generation/             -- GPT2 in ONNX, calling into the HuggingFace transformers library for generation at runtime
 ```
 
 ## Getting started
 
-1. First make sure you've followed all the steps [linked here](https://github.com/octoml/octoml-cli-tutorials#getting-started) to download the CLI.
+1. Make sure you've followed all the steps to [download the OctoML CLI](https://github.com/octoml/octoml-cli-tutorials#getting-started).
 
-2. Verify you have python installed. You need Python3. Python3.10 users (e.g. Ubuntu Jammy) see our [Note on Python3.10](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials/vision#note-on-python310)
+2. Verify you have Python3 installed:
 
 ```shell
 $ python --version
 Python 3.8.4
 ```
+> Note: Python3.10 users (e.g. Ubuntu Jammy), see [instructions for Python3.10](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials/vision#note-on-python310).
 
 3. Clone the tutorials repo:
 
@@ -34,14 +35,14 @@ cd octoml-cli-tutorials
 cd tutorials
 ```
 
-4. We recommend that you set up a Python virtual environment:
+4. (Recommended) Set up a Python virtual environment:
 
 ```shell
 python -m venv venv
 source venv/bin/activate
 ```
 
-5. Run setup utility to install the python dependencies.
+5. Run setup utility to install the Python dependencies:
 
 ```shell
 ./setup.sh
@@ -73,7 +74,7 @@ Prey score: 0.999
 The `critterblock.onnx` model is a Computer Vision (Resnet50-based) model customized for a cat door; the door locks when it detects that a cat is carrying its prey into the house. In `run.py`, we pass in a sample image to the model, run image preprocessing code customized for this use case, run an inference using ONNX Runtime, and finally call image post-processing code on the results of the model. In this case, the script returns a cat score of 1, approach score of 1, and prey score of 0.999 on this image, which means the model correctly detected that a cat is approaching the cat door while holding its prey.
 
 
-## Generate production-scale deployment using OctoML CLI
+## Generate production-scale deployment using the OctoML CLI
 
 Now that we've confirmed the model is working as intended, let's prepare it for production-scale usage (in this case, so that we can protect thousands of cloud-connected cat doors). We will deploy the package locally using the OctoML CLI without having to upload our models to the OctoML platform.
 
@@ -87,11 +88,12 @@ models:
     path: critterblock.onnx
 ```
 
-Now use this file to generate a docker image and start a docker container running triton -- this will deploy a docker container locally on your machine.
+1. Use `octoml.yaml` to generate a Docker image and start a Docker container running Triton -- this will deploy a Docker container locally on your machine.
 
-> Note: This will pull down a base image that is 12G. Ensure you have enough disk space for this operation.
+> Note: This will pull down a base image that is 12+ GB. Ensure you have enough disk space for this operation.
 
-```
+2. Run `octoml deploy`:
+  ```
 $ octoml deploy
  ∙∙∙ Models imported
  ∙∙∙ Packages generated
@@ -105,8 +107,7 @@ refer to our tutorials and guides on GitHub.
 
 https://github.com/octoml/octoml-cli-tutorials
 ```
-
-After running the command above, you can verify that a Docker container has been spun up successfully by running `docker ps`.
+4. Verify that a Docker container has been spun up successfully by running `docker ps`:
 
 ```
 $ docker ps
@@ -118,7 +119,7 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED      STATUS      
 
 By default, the running Docker container exposes a GRPC endpoint at port 8001. The
 following invocation will run the client code for sending a sample inference request
-to that default port. `run.py` contains client code for the deployed docker container.
+to that default port. `run.py` contains client code for the deployed Docker container.
 
 ```
 $ python3 run.py --triton
@@ -133,9 +134,9 @@ Again, we see a cat score of 1, approach score of 1, and prey score of 0.999 on 
 
 ## Kubernetes Deployment
 
-Now that we have a production-grade container ready for deployment, let's deploy the container to a Kubernetes cluster. Below we have docs for deploying to a Kubernetes cluster using Google GKE, Amazon EKS, and Azure AKS.
+Now that we have a production-grade container ready for deployment, let's deploy the container to a Kubernetes cluster using Google GKE, Amazon EKS, and Azure AKS.
 
-Navigate one level back up to the tutorials repo. 
+Navigate one level back up to the tutorials repo: 
 
 ```shell
 $ cd ..
@@ -151,19 +152,20 @@ If you don't already have an EKS cluster set up, follow the guides from AWS to s
 - [Getting started with Amazon EKS – AWS Management Console and AWS CLI](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 - [Provision an EKS Cluster (AWS)](https://learn.hashicorp.com/tutorials/terraform/eks?in=terraform/kubernetes)
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the aws cli. Run `setup-cloud.sh` to install the needed cloud utilities:
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the AWS CLI. 
+1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
 ./setup-cloud.sh aws
 ```
 
-Set up the AWS CLI by following the [docs here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) and test by listing eks clusters:
+2. Set up the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) and test by listing EKS clusters:
 
 ```
 aws eks list-clusters --profile $aws_profile --region $aws_region
 ```
 
-Fill in these bash variables for the arguments we will pass to the deploy script:
+3. Fill in these bash variables for the arguments we will pass to the deploy script:
 
 ```
 model_name=
@@ -185,14 +187,14 @@ cluster_name=test-cluster
 aws_region=us-west-2
 ```
 
-Run the `deploy_to_eks.sh` script to create an ECR repository, push your image to it, and configure kubectl to connect to your cluster:
+4. Run the `deploy_to_eks.sh` script to create an ECR repository, push your image to it, and configure kubectl to connect to your cluster:
 
 ```
 ./deploy_to_eks.sh $model_name $aws_profile $docker_image_tag $aws_registry_url $cluster_name $aws_region
 
 ```
 
-Check the status of the helm deployment:
+5. Check the status of the helm deployment:
 
 ```
 helm list -n ${model_name}
@@ -205,19 +207,20 @@ If you don't already have an AKS cluster set up, follow the guides from Azure to
 - [Quickstart: Deploy an Azure Kubernetes Service cluster using the Azure CLI](https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-portal#create-an-aks-cluster)
 - [Provision an AKS Cluster (Azure)](https://learn.hashicorp.com/tutorials/terraform/aks?in=terraform/kubernetes)
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the azure cli. Run `setup-cloud.sh` to install the needed cloud utilities:
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the Azure CLI. 
+1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
 ./setup-cloud.sh azure
 ```
 
-Set up the Azure CLI by following the [docs here](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli) and test by listing aks clusters:
+2. Set up the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli) and test by listing AKS clusters:
 
 ```
 az aks list --subscription $azure_subscription_id
 ```
 
-Fill in these bash variables for the arguments we will pass to the deploy script:
+3. Fill in these bash variables for the arguments we will pass to the deploy script:
 
 ```
 model_name=
@@ -237,14 +240,14 @@ cluster_name=test-cluster
 resource_group_name=test-cluster_group
 ```
 
-Run the `deploy_to_aks.sh` script to create an artifact repository, push your image to it, and configure kubectl to connect to your cluster:
+4. Run the `deploy_to_aks.sh` script to create an artifact repository, push your image to it, and configure kubectl to connect to your cluster:
 
 ```
 ./deploy_to_aks.sh $model_name $azure_subscription_id $docker_image_tag $cluster_name $resource_group_name
 
 ```
 
-Check the status of the helm deployment:
+5. Check the status of the helm deployment:
 
 ```
 helm list -n ${model_name}
@@ -259,19 +262,20 @@ If you don't already have a GKE cluster set up, follow the guide from GCP to set
 
 In order to push your image to Artifact Registry, make sure that the [Artifact Registry API](https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images#before-you-begin) is enabled for your project.
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the gcloud cli. Run `setup-cloud.sh` to install the needed cloud utilities:
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the gcloud cli. 
+1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
 ./setup-cloud.sh gcloud
 ```
 
-Set up the gcloud CLI by following the [docs here](https://cloud.google.com/sdk/docs/initializing) and test by listing gke clusters:
+2. Set up the [gcloud CLI](https://cloud.google.com/sdk/docs/initializing) and test by listing gke clusters:
 
 ```
 gcloud container clusters list
 ```
 
-Fill in these bash variables for the arguments we will pass to the deploy script:
+3. Fill in these bash variables for the arguments we will pass to the deploy script:
 
 ```
 model_name=
@@ -291,14 +295,14 @@ cluster_name=test-cluster
 gcp_region=us-central1
 ```
 
-Run the `deploy_to_gke.sh` script to create an artifact repository, push your image to it, and configure kubectl to connect to your cluster:
+4. Run the `deploy_to_gke.sh` script to create an artifact repository, push your image to it, and configure kubectl to connect to your cluster:
 
 ```
 ./deploy_to_gke.sh $model_name $gcp_project_id $docker_image_tag $cluster_name $gcp_region
 
 ```
 
-Check the status of the helm deployment:
+5. Check the status of the helm deployment:
 
 ```
 helm list -n ${model_name}
@@ -308,13 +312,13 @@ helm list -n ${model_name}
 
 Finally, run inferences on the container deployed to the cluster.
 
-Once the helm deploy completes, port-forward the EKS deployment's triton GRPC endpoint to localhost:
+1. Once the helm deploy completes, port-forward the EKS deployment's triton GRPC endpoint to localhost:
 
 ```
 kubectl port-forward service/${model_name} -n ${model_name} 8080:8001
 ```
 
-Now we can run inference:
+2. Run inference:
 
 ```
 python run.py --triton --port 8080
@@ -333,7 +337,7 @@ python run.py --triton --protocol http --port 8080
 ```
 
 
-To clean up the environment or if you want to try other live demos on EKS, stop the port-forward script and run:
+3. (Optional) To clean up the environment or to try other live demos on EKS, stop the port-forward script and run:
 
 ```
 helm uninstall ${model_name} -n ${model_name}
@@ -350,7 +354,7 @@ prometheus:
     enabled: true
 ```
 
-**NOTE:** By default, the Prometheus ServiceMonitor resource will be created in the same namespace as the OctoML deployment. To change this behavior, set the `prometheus.serviceMonitor.namespace` value to the namespace in which you wish to create the ServiceMonitor. The namespace must be an existing one, otherwise deployment will fail.
+> NOTE: By default, the Prometheus ServiceMonitor resource will be created in the same namespace as the OctoML deployment. To change this behavior, set the `prometheus.serviceMonitor.namespace` value to the namespace in which you wish to create the ServiceMonitor. The namespace must be an existing one, otherwise deployment will fail.
 
 If you have Prometheus Kubernetes service discovery enabled on your server you can add annotations to allow Prometheus to scrape the pod by setting the following values:
 ```
@@ -376,9 +380,9 @@ kubectl logs pod/demo-6f45998bbb-6jnlq -n ${model_name}
 
 ## Accelerating your model on different hardware targets
 
-To access advanced features like model acceleration, you will need to [sign up](https://learn.octoml.ai/private-preview) for an OctoML Platform account. Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to finish setting up your account. Next, generate an API access token [here](https://app.octoml.ai/account/settings) and call `octoml setup acceleration` to store your API access token in the CLI.
+To access advanced features like model acceleration, you will need to [sign up an OctoML account](https://learn.octoml.ai/private-preview). Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to access the OctoML platform. Next, [generate an API access token](https://app.octoml.ai/account/settings) and call `octoml setup acceleration` to store your API access token in the CLI.
 
-`octoml setup acceleration` is an interactive help wizard that not only prompts you for the API access token but also helps you populate the input configuration file (`octoml.yaml`) with other fields required for acceleration, including hardware and (for dynamically shaped models only) the model's input shapes. Beware that hardware selection requires that you click <space> and then <return> to confirm your selection.
+`octoml setup acceleration` is an interactive help wizard that not only prompts you for the API access token but also helps you populate the input configuration file (`octoml.yaml`) with other fields required for acceleration, including hardware and (for dynamically shaped models only) the model's input shapes.
 
 
 ```shell
@@ -388,7 +392,7 @@ Updated octoml.yaml with the new hardware targets aws_c5.12xlarge - Cascade Lake
 ```
 
 
-Now, you are ready to run accelerated packaging, which returns you the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -a` for full acceleration mode. See the below table for differences.
+Now, you are ready to run accelerated packaging. This returns the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -a` for full acceleration mode. See the below table for differences.
 
 
 ```shell
