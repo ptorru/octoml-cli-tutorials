@@ -43,7 +43,7 @@ We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI
 
 ## Core commands to deploy your model
 
-**Note:** You do not need to provide an OctoML API access token at this stage. If you run these commands without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform.
+> Note: You do not need to provide an OctoML API access token at this stage. If you run these commands without setting an OctoML API token beforehand, we do not upload your model to the OctoML platform.
 
 1. `octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
 
@@ -54,7 +54,7 @@ We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI
 4. To run inferences against the container, follow our [demos](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) to configure an appropriate `run.py` file for your specific model. `run.py` provides a standard schema on how to run inferences against the OctoML-deployed model, while requiring you to customize the pre- and post-processing code for your own model use case.
 
 ## Get access to model acceleration and benchmarking
-OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview) and create an API token.
+OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview) at which point you can [create an API token](https://app.octoml.ai/account/settings).
 
 1. `octoml setup acceleration`: Prompts you for information required for acceleration, including an OctoML API access token, hardware, and dynamic shape disambiguation. Populates the information into your input configuration file for downstream use in `octoml package` and `octoml deploy`. If you choose not to run setup, make sure to configure your input configuration file manually with the requisite fields for acceleration before calling `octoml package -e` or `octoml package -a`.
 
