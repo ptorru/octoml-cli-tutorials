@@ -48,15 +48,13 @@ source venv/bin/activate
 ./setup.sh
 ```
 
-> Note: The following steps assume that your current working directory is one of the listed example model dirs above. Let's `cd` into the `vision` repository for example.
-
-6. Change Directory into the vision tutorial:
-
+6. Navigate to the vision directory:
 ```
 $ cd vision
 $ ls
 cat_input_images/  critterblock.onnx  octoml.yaml  run.py
 ```
+> Note: These steps can be completed with any of the example model dirs provided. Here we have decided to `cd` into the `vision` dir. 
 
 ## Local inference without a container
 
@@ -107,7 +105,7 @@ refer to our tutorials and guides on GitHub.
 
 https://github.com/octoml/octoml-cli-tutorials
 ```
-4. Verify that a Docker container has been spun up successfully by running `docker ps`:
+3. Verify that a Docker container has been spun up successfully by running `docker ps`:
 
 ```
 $ docker ps
@@ -119,7 +117,7 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED      STATUS      
 
 By default, the running Docker container exposes a GRPC endpoint at port 8001. The
 following invocation will run the client code for sending a sample inference request
-to that default port. `run.py` contains client code for the deployed Docker container.
+to that default port. `run.py` contains client code for the deployed Docker container:
 
 ```
 $ python3 run.py --triton
@@ -152,7 +150,7 @@ If you don't already have an EKS cluster set up, follow the guides from AWS to s
 - [Getting started with Amazon EKS – AWS Management Console and AWS CLI](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 - [Provision an EKS Cluster (AWS)](https://learn.hashicorp.com/tutorials/terraform/eks?in=terraform/kubernetes)
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the AWS CLI. 
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). 
 1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
@@ -207,7 +205,7 @@ If you don't already have an AKS cluster set up, follow the guides from Azure to
 - [Quickstart: Deploy an Azure Kubernetes Service cluster using the Azure CLI](https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-portal#create-an-aks-cluster)
 - [Provision an AKS Cluster (Azure)](https://learn.hashicorp.com/tutorials/terraform/aks?in=terraform/kubernetes)
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the Azure CLI. 
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli). 
 1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
@@ -262,7 +260,7 @@ If you don't already have a GKE cluster set up, follow the guide from GCP to set
 
 In order to push your image to Artifact Registry, make sure that the [Artifact Registry API](https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images#before-you-begin) is enabled for your project.
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the gcloud cli. 
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [gcloud CLI](https://cloud.google.com/sdk/docs/initializing). 
 1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
@@ -380,7 +378,7 @@ kubectl logs pod/demo-6f45998bbb-6jnlq -n ${model_name}
 
 ## Accelerating your model on different hardware targets
 
-To access advanced features like model acceleration, you will need to [sign up an OctoML account](https://learn.octoml.ai/private-preview). Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to access the OctoML platform. Next, [generate an API access token](https://app.octoml.ai/account/settings) and call `octoml setup acceleration` to store your API access token in the CLI.
+To access advanced features like model acceleration, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview). Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to access the OctoML platform. Next, [generate an API access token](https://app.octoml.ai/account/settings) and call `octoml setup acceleration` to store your API access token in the CLI.
 
 `octoml setup acceleration` is an interactive help wizard that not only prompts you for the API access token but also helps you populate the input configuration file (`octoml.yaml`) with other fields required for acceleration, including hardware and (for dynamically shaped models only) the model's input shapes.
 
@@ -415,7 +413,7 @@ $ octoml deploy -e
 
 ### Express Acceleration Mode and Full Acceleration Mode
 
-The following table explains the difference between the two modes
+The following table explains the difference between the two modes:
 
 
 | Name | Express Acceleration Mode | Full Acceleration Mode |
@@ -426,4 +424,4 @@ The following table explains the difference between the two modes
 
 ### Troubleshooting
 
-For Torchscript models traced on a GPU, containers will not be able to be run on CPUs in the local CLI. Please sign up for an OctoML account and upgrade to authenticated usage per the instructions above if this use case is applicable for you.
+For Torchscript models traced on a GPU, containers will not be able to be run on CPUs in the local CLI. Please [sign up for an OctoML account](https://learn.octoml.ai/private-preview) and upgrade to authenticated usage per the instructions above if this use case is applicable for you.
