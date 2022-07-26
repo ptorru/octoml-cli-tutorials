@@ -86,7 +86,7 @@ models:
     path: critterblock.onnx
 ```
 
-1. Use `octoml.yaml` to generate a Docker image and start a Docker container running Triton -- this will deploy a Docker container locally on your machine.
+1. Use `octoml.yaml` to generate a Docker image and start a Docker container running [Triton](https://github.com/triton-inference-server/server/blob/r22.06/README.md#documentation) -- this will deploy a Docker container locally on your machine.
 
 > Note: This will pull down a base image that is 12+ GB. Ensure you have enough disk space for this operation.
 
@@ -132,7 +132,7 @@ Again, we see a cat score of 1, approach score of 1, and prey score of 0.999 on 
 
 ## Kubernetes Deployment
 
-Now that we have a production-grade container ready for deployment, let's deploy the container to a Kubernetes cluster using Google GKE, Amazon EKS, and Azure AKS.
+Now that we have a production-grade container ready for deployment, let's deploy the container to a Kubernetes cluster using Google GKE, Amazon EKS, or Azure AKS.
 
 Navigate one level back up to the tutorials repo: 
 
@@ -157,7 +157,7 @@ The script we will use to deploy to the cluster requires us to install `kubectl`
 ./setup-cloud.sh aws
 ```
 
-2. Set up the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) and test by listing EKS clusters:
+2. Set up the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html) and confirm completion by listing EKS clusters:
 
 ```
 aws eks list-clusters --profile $aws_profile --region $aws_region
@@ -212,7 +212,7 @@ The script we will use to deploy to the cluster requires us to install `kubectl`
 ./setup-cloud.sh azure
 ```
 
-2. Set up the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli) and test by listing AKS clusters:
+2. Set up the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli) and confirm completion by listing AKS clusters:
 
 ```
 az aks list --subscription $azure_subscription_id
@@ -267,7 +267,7 @@ The script we will use to deploy to the cluster requires us to install `kubectl`
 ./setup-cloud.sh gcloud
 ```
 
-2. Set up the [gcloud CLI](https://cloud.google.com/sdk/docs/initializing) and test by listing gke clusters:
+2. Set up the [gcloud CLI](https://cloud.google.com/sdk/docs/initializing) and confirm completion by listing gke clusters:
 
 ```
 gcloud container clusters list
