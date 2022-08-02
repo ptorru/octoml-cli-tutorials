@@ -7,7 +7,8 @@ and `examples<https://github.com/triton-inference-server/client/tree/main/src/py
 
 import numpy as np
 from typing import Union, Tuple
-from attrdict import AttrDict
+from types import SimpleNamespace
+
 try:
     from tritonclient.http import (
         InferenceServerClient as HttpClient,
@@ -65,7 +66,7 @@ class TritonRemoteModel:
         self._version = model_version
         self._metadata = self._client.get_model_metadata(model_name, model_version)
         if protocol == 'http':
-            self._metadata = AttrDict(self._metadata)
+            self._metadata = SimpleNamespace(**self._metadata)
         self._infer_inputs = [InferInput(x.name, None, x.datatype) for x in self._metadata.inputs]
         self._protocol = protocol
 
