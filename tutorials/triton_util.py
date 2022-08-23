@@ -68,8 +68,10 @@ class TritonRemoteModel:
         if protocol == 'http':
             self._metadata = SimpleNamespace(**self._metadata)
             self._inputs = [SimpleNamespace(**inputs) for inputs in self._metadata.inputs]
+            self._outputs = [SimpleNamespace(**outputs) for outputs in self._metadata.outputs]
         else:
             self._inputs = self._metadata.inputs
+            self._outputs = self._metadata.outputs
 
         self._infer_inputs = [InferInput(x.name, None, x.datatype) for x in self._inputs]
         self._protocol = protocol
@@ -88,7 +90,7 @@ class TritonRemoteModel:
 
     @property
     def outputs(self):
-        return self._metadata.outputs
+        return self._outputs
 
     @property
     def backend(self):
