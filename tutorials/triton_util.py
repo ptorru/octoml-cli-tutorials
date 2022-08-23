@@ -68,6 +68,8 @@ class TritonRemoteModel:
         if protocol == 'http':
             self._metadata = SimpleNamespace(**self._metadata)
             self._inputs = SimpleNamespace(**self._metadata.inputs)
+        else:
+            self._inputs = self._metadata.inputs
 
         self._infer_inputs = [InferInput(x.name, None, x.datatype) for x in self._inputs]
         self._protocol = protocol
