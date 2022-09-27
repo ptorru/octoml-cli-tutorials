@@ -412,5 +412,5 @@ cp runs/detect/exp/images-einstein.jpeg \
 Open the new output file to verify that YOLOv5 inference successfully added bounding boxes to the original image:
 
 
-![image2](images/image35.png)
+![image2](images/image15.png)
 
