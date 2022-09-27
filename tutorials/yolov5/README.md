@@ -142,7 +142,7 @@ docker images
 
 Now you are ready to run the Docker container. We will connect the container to
 our host machine for easy communication between our laptop and the future model
-container. We will also bind a mount point from a local directory (in red) to a
+container. We will also bind a mount point from a local directory (/Users/Sameer/…) to a
 folder in the container. You will want to edit the directory path in red below
 to a local folder on your laptop.
 
@@ -263,7 +263,7 @@ Verify that you see the ONNX file from your laptop:
 
 ## Run OctoML CLI to package and deploy YOLOv5
 
-You are now ready to package and deploy your selected YOLOv5 model! Go go the
+You are now ready to package and deploy your selected YOLOv5 model! Go to the
 [OctoML CLI landing page](https://try.octoml.ai/cli/) and download the .zip or
 .tar.gz file for your local machine:
 
@@ -396,7 +396,7 @@ between the two containers:
 
 ![Client and inference container architecture](images/image1.png)
 
-Start by selecting an image that you want to run inference again. For this
+Start by selecting an image on which you want to run an inference. For this
 tutorial, we’ll use this image of [a guy riding a
 bike](https://croftonbikedoctor.files.wordpress.com/2017/06/images-einstein.jpg):
 
