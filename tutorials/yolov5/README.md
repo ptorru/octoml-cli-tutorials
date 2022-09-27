@@ -8,7 +8,7 @@
  1. [Clone YOLOv5 repo, install requirements and export model](#clone-yolov5-repo-install-requirements-and-export-model)
  1. [Run OctoML CLI to package and deploy YOLOv5](#run-octoml-cli-to-package-and-deploy-yolov5)
  1. [Verify Triton and networking config](#verify-triton-and-networking-config)
- 1. [Run Inference to Triton in OctoML model container](#run-inference-to-triton-in-octoml-container)
+ 1. [Run Inference to Triton in OctoML model container](#run-inference-to-triton-in-octoml-model-container)
  
 ## Introduction
 
