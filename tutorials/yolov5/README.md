@@ -129,7 +129,7 @@ PyTorch registry:
 docker pull pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 ```
 
-![image2](images/image0.png)
+![image2](images/image39.png)
 
 When the download is completed and the image has been extracted, you can verify
 that the image is present locally with:
@@ -138,7 +138,7 @@ that the image is present locally with:
 docker images
 ```
 
-![image2](images/image0.png)
+![image2](images/image42.png)
 
 Now you are ready to run the Docker container. We will connect the container to
 our host machine for easy communication between our laptop and the future model
@@ -152,7 +152,7 @@ docker run -i -t --network host \
   pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 ```
 
-![image2](images/image0.png)
+![image2](images/image41.png)
 
 If you get a warning about the host platform like in the screenshot above, you
 can safely ignore it.
@@ -161,13 +161,13 @@ In the Docker Desktop UI, under the Containers tab, you will now see the
 container running with a randomly generated name. Click the 3 dots to bring up
 the actions menu and choose “Open in terminal”
 
-![image2](images/image0.png)
+![image2](images/image12.png)
 
 Next optionally, open an external terminal if you prefer:
 
-![image2](images/image0.png)
+![image2](images/image16.png)
 
-![image2](images/image0.png)
+![image2](images/image6.png)
 
 ## Clone YOLOv5 repo, install requirements and export model
 
