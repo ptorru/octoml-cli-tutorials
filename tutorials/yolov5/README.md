@@ -46,16 +46,16 @@ models, ending in 6, have higher mean Average Precision for object detection,
 but also slower inference times in the speed columns. The table below from the
 Ultralytics github shows the unoptimized inference run times for the models on
 an AWS p3.2xlarge instance with NVIDIA’s V100 Tensor Core GPU. These speeds
-provide a high-level guide for model selection, but your actual run time can
+provide a high-level guide for model selection, but your actual inference time can
 vary significantly depending on your chosen cloud instance, CPU or GPU target,
 acceleration engine (such as Apache TVM, ONNX Runtime or TensorRT) and specific
 YOLOv5 model variant.
 
 ![Table of YOLOv5 checkpoints](images/image32.png)
 
-At OctoML, we ran the most popular model variant, YOLOv5s, which is a good
-compromise of accuracy and speed, and a great model to start with, through
-OctoML’s SaaS product to understand how inference speeds can vary. OctoML
+At OctoML, we ran the most popular model variant, YOLOv5s, which strikes a good
+balance between accuracy and speed, through OctoML’s SaaS product to understand 
+how inference speeds can vary for different hardware. OctoML
 optimizes ML models for production deployment via various engines, including
 Apache TVM, ONNX Runtime and TensorRT, and automatically provides you with the
 fastest implementation of the model for your chosen hardware. Take a look at the
@@ -67,9 +67,10 @@ targets (prices accurate as of Sept 2022).
 
 ![OctoML Package latencies](images/image36.png)
 
-OctoML makes it easy to achieve hardware independence by accelerating your model
-with multiple optimization engines and benchmarking your model across 100+
-hardware targets in AWS, Azure and GCP.
+OctoML makes it easy to achieve hardware independence by helping you identify
+the hardware with the best cost-per-inference. Specifically, we accelerate your 
+model with multiple optimization engines and benchmark your model across up to 
+100 hardware targets in AWS, Azure and GCP.
 
 ## Select your YOLOv5 candidate model
 
@@ -289,7 +290,7 @@ On the next popup, choose Open:
 
 Now you can close the terminal window:
 
-![Closing tho OctoML CLI terminal window](images/image26.png)
+![Closing the OctoML CLI terminal window](images/image26.png)
 
 Using your local machine’s Finder app or directory browser, copy the ONNX format
 of your selected YOLOv5 model from the docker-mount folder to the OctoML CLI
