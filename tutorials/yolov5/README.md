@@ -190,7 +190,7 @@ when you’re prompted to continue with the installation. The Git install will
 take about 5-10 minutes. When promoted, choose your geographic location and then
 the closest city:
 
-![image2](images/image0.png)
+![image2](images/image29.png)
 
 Clone the yolov5 repository:
 
@@ -199,7 +199,7 @@ git clone https://github.com/ultralytics/yolov5
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image22.png)
 
 Change directory into the new folder and install the requirements.txt file:
 
@@ -209,7 +209,7 @@ pip install -r requirements.txt
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image13.png)
 
 Install wget and download the yolov5s model to the container. You can switch the download link to whichever model you selected earlier in this tutorial.
 
@@ -219,7 +219,7 @@ wget https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5s.pt
 ls
 ```
 
-![image2](images/image0.png)
+![image2](images/image11.png)
 
 Finally, convert the .pt PyTorch model to the ONNX format, so it’s compatible with OctoML CLI:
 
@@ -227,12 +227,12 @@ Finally, convert the .pt PyTorch model to the ONNX format, so it’s compatible 
 python export.py --weights yolov5s.pt --include onnx
 ```
 
-![image2](images/image0.png)
+![image2](images/image34.png)
 
 The conversion will take about 5 minutes and the onnx package will be automatically installed. When completed, you will see a .onnx model file locally:
 
 
-![image2](images/image0.png)
+![image2](images/image14.png)
 
 Re-run ls and you will see the new ONNX model file:
 
@@ -241,7 +241,7 @@ ls
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image3.png)
 
 
 This is the ONNX file that we will pass into the OctoML CLI in the next section for packaging into a OctoML model container with Triton. Copy the ONNX model file to the docker mount that is binded to a folder on your host machine:
@@ -253,7 +253,7 @@ cp yolov5s.onnx /workspace/docker-mount
 
 Verify that you see the ONNX file from your laptop:
 
-![image2](images/image0.png)
+![image2](images/image24.png)
 
 ## Run OctoML CLI to package and deploy YOLOv5
 
@@ -262,35 +262,35 @@ You are now ready to package and deploy your selected YOLOv5 model! Go go the
 .tar.gz file for your local machine:
 
 
-![image2](images/image0.png)
+![image2](images/image38.png)
 
 In Chrome, you may need to choose “Keep” to confirm that you want to download this file:
 
 
 
-![image2](images/image0.png)
+![image2](images/image37.png)
 
 Once OctoML CLI is downloaded, extract or unzip the file. Then, if you are running on OS X, you will need to override macOS’s system security and confirm that you want to run this file. Right click on the octoml executable file and Open With -> Terminal:
 
 
-![image2](images/image0.png)
+![image2](images/image23.png)
 
 On the next popup, choose Open:
 
-![image2](images/image0.png)
+![image2](images/image27.png)
 
 Now you can close the terminal window:
 
-![image2](images/image0.png)
+![image2](images/image26.png)
 
 Using your local machine’s Finder app or directory browser, copy the ONNX format of your selected YOLOv5 model from the docker-mount folder to the OctoML CLI download folder:
 
-![image2](images/image0.png)
+![image2](images/image19.png)
 
 
 Launch your preferred Terminal application (here we are using iTerm2 on macOS) and navigate to the directory where you downloaded the OctoML CLI and run ls to verify that the ONNX model is there:
 
-![image2](images/image0.png)
+![image2](images/image18.png)
 
 You are now ready to run OctoML CLI!
 
@@ -301,13 +301,13 @@ From the directory where you have OctoML CLI extracted, run:
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image25.png)
 
 
 The ONNX formatted YOLOv5 model should be automatically detected since it’s in the same folder. Hit enter to choose it and a new octoml.yaml file will be created:
 
 
-![image2](images/image0.png)
+![image2](images/image30.png)
 
 Next run the package command to package the model into a container. Note that the first time you run this command a 5+ GB base image will be downloaded, which can take between 5 to 20 minutes. 
 
@@ -316,7 +316,7 @@ Next run the package command to package the model into a container. Note that th
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image43.png)
 
 Finally, run the deploy command to start running the container locally:
 
@@ -324,17 +324,17 @@ Finally, run the deploy command to start running the container locally:
 ./octoml deploy
 ```
 
-![image2](images/image0.png)
+![image2](images/image28.png)
 
 You will now see the new OctoML model container with Triton running in Docker Desktop:
 
 
-![image2](images/image0.png)
+![image2](images/image5.png)
 
 If you click on the OctoML container, you will see the Triton Inference Server logs:
 
 
-![image2](images/image0.png)
+![image2](images/image4.png)
 
 ## Verify Triton and networking config
 
@@ -347,7 +347,7 @@ curl -v localhost:8000/v2/models/stats
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image9.png)
 
 Next, let’s verify that the client code container can also talk to Triton. Switch to the Terminal window for the client container (where you git cloned the YOLOv5 repo) and install curl:
 
@@ -356,7 +356,7 @@ apt install curl
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image7.png)
 
 Run the same curl command to see statistics from Triton:
 
@@ -365,23 +365,23 @@ curl -v localhost:8000/v2/models/stats
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image2.png)
 
 ## Run inference to Triton in OctoML model container
 
 We now have our local architecture built out and are ready to run inference between the two containers:
 
 
-![image2](images/image0.png)
+![image2](images/image1.png)
 
 Start by selecting an image that you want to run inference again. For this tutorial, we’ll use this image of [a guy riding a bike](https://croftonbikedoctor.files.wordpress.com/2017/06/images-einstein.jpg):
 
 
-![image2](images/image0.png)
+![image2](images/image17.png)
 
 Store your selected image on your host machine’s docker-mount folder:
 
-![image2](images/image0.png)
+![image2](images/image40.png)
 
 Switch to the Terminal window for the client code container (where you git cloned the YOLOv5 repo), and run the detect.py script from the /workspace/yolov5 subfolder. Note that Triton Client will be automatically installed. 
 
@@ -391,7 +391,7 @@ python detect.py --source /workspace/docker-mount/images-einstein.jpeg \
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image8.png)
 
 In a minute, you’ll see the results saved to a local sub-directory such as runs/detect/exp:
 
@@ -400,7 +400,7 @@ ls runs/detect/exp
 ```
 
 
-![image2](images/image0.png)
+![image2](images/image20.png)
 
 Copy the emitted file from the runs directory to your shared docker-mount directory and rename it to *-output.jpeg so you can open it in your host machine:
 
@@ -412,5 +412,5 @@ cp runs/detect/exp/images-einstein.jpeg \
 Open the new output file to verify that YOLOv5 inference successfully added bounding boxes to the original image:
 
 
-![image2](images/image0.png)
+![image2](images/image35.png)
 
