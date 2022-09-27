@@ -30,3 +30,25 @@ created with OctoML CLI automatically and will host your chosen YOLOv5 model and
 Triton.
 
 ![image1](images/image1.png)
+
+Let’s start by reviewing the YOLOv5 models and their use cases.
+
+## Benefits of deploying YOLOv5 with OctoML
+
+Ultralytics provides [10 pretrained
+checkpoints](https://github.com/ultralytics/yolov5#pretrained-checkpoints) of
+YOLOv5 ranging in size and prediction accuracies. The first 5 models below,
+YOLOv5n - x, take in images of size 640 x 640 pixels, while the second 5 models,
+ending in ‘6’, accept larger images of size 1280 x 1280. Note that the
+pre-processing code we will use in detect.py automatically resizes larger images
+to the appropriate size, so you don’t have to. As you can see, the larger
+models, ending in 6, have higher mean Average Precision for object detection,
+but also slower inference times in the speed columns. The table below from the
+Ultralytics github shows the unoptimized inference run times for the models on
+an AWS p3.2xlarge instance with NVIDIA’s V100 Tensor Core GPU. These speeds
+provide a high-level guide for model selection, but your actual run time can
+vary significantly depending on your chosen cloud instance, CPU or GPU target,
+acceleration engine (such as Apache TVM, ONNX Runtime or TensorRT) and specific
+YOLOv5 model variant.
+
+![image2](images/image2.png)
