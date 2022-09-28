@@ -347,13 +347,13 @@ You will now see the new OctoML model container with Triton running in Docker
 Desktop:
 
 
-![OctoML inference container in Docker Desktop](images/image5.png)
+![OctoML inference container in Docker Desktop](images/image5b.png)
 
 If you click on the OctoML container, you will see the Triton Inference Server
 logs:
 
 
-![Triton inference server logs](images/image4.png)
+![Triton inference server logs](images/image4b.png)
 
 ## Verify Triton and networking config
 
