@@ -8,7 +8,7 @@
  1. [Clone YOLOv5 repo, install requirements and export model](#clone-yolov5-repo-install-requirements-and-export-model)
  1. [Run OctoML CLI to package and deploy YOLOv5](#run-octoml-cli-to-package-and-deploy-yolov5)
  1. [Verify Triton and networking config](#verify-triton-and-networking-config)
- 1. [Run Inference to Triton in OctoML model container](#run-inference-to-triton-in-octoml-container)
+ 1. [Run Inference to Triton in OctoML model container](#run-inference-to-triton-in-octoml-model-container)
  
 ## Introduction
 
@@ -347,13 +347,13 @@ You will now see the new OctoML model container with Triton running in Docker
 Desktop:
 
 
-![OctoML inference container in Docker Desktop](images/image5.png)
+![OctoML inference container in Docker Desktop](images/image5b.png)
 
 If you click on the OctoML container, you will see the Triton Inference Server
 logs:
 
 
-![Triton inference server logs](images/image4.png)
+![Triton inference server logs](images/image4b.png)
 
 ## Verify Triton and networking config
 
