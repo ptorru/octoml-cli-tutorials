@@ -328,8 +328,6 @@ Next run the package command to package the model into a container. Note that
 the first time you run this command a base image of up to 3.5 GB will be downloaded, which
 can take a few minutes.
 
-The deploy command 
-
 ``` shell
 ./octoml package | ./octoml build
 ```
