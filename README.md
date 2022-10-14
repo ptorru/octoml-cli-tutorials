@@ -9,9 +9,9 @@ You can run inferences on the container locally for development and testing, the
 
 1. Download the latest version of the OctoML CLI:
 
-* [Mac](https://downloads.octoml.ai/octoml_macOS_v0.6.0.zip): Due to MacOS's security setup, you'll need to confirm in your browser that you'd like to retain the downloaded file, go to Finder to unzip the file, right-click on the `octoml` executable, and then click Open With -> Terminal -> Open.
-* [Linux](https://downloads.octoml.ai/octoml_ubuntu_v0.6.0.tar.gz)
-* [Windows](https://downloads.octoml.ai/octoml_v0.6.0.zip)
+* [Mac](https://downloads.octoml.ai/octoml_macOS_v0.6.1.zip): Due to MacOS's security setup, you'll need to confirm in your browser that you'd like to retain the downloaded file, go to Finder to unzip the file, right-click on the `octoml` executable, and then click Open With -> Terminal -> Open.
+* [Linux](https://downloads.octoml.ai/octoml_ubuntu_v0.6.1.tar.gz)
+* [Windows](https://downloads.octoml.ai/octoml_v0.6.1.zip)
 
 2. Check out the list of available commands by running `./octoml` in your current directory.
 
