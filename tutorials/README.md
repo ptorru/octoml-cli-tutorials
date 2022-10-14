@@ -88,11 +88,11 @@ models:
 
 1. Use `octoml.yaml` to generate a Docker image and start a Docker container running [Triton](https://github.com/triton-inference-server/server/blob/r22.06/README.md#documentation) -- this will deploy a Docker container locally on your machine.
 
-> Note: This will pull down a base image that is 12+ GB. Ensure you have enough disk space for this operation.
+> Note: This will pull down a base image that up to 3.5 GB in size. Ensure you have enough disk space for this operation.
 
-2. Run `octoml deploy`:
+2. Package, build, and deploy the container:
   ```
-$ octoml deploy
+$ octoml package | octoml build | octoml deploy
  ∙∙∙ Models imported
  ∙∙∙ Packages generated
  ∙∙∙ Docker image assembled
@@ -408,7 +408,7 @@ You can now push the local container to a remote container repository (e.g. ECR)
 If you wish to locally deploy and test inferences against the accelerated container, you may run the following command, but note that it only works if the local machine on which you're running the CLI has the same hardware architecture as the hardware you accelerated the model for (e.g. if you are running the CLI on an M1 mac, you can only run deployment on your local mac successfully if you accelerated your model on a Graviton instance, as both of them share the ARM64 architecture).
 
 ```shell
-$ octoml deploy -e
+$ octoml package -a | octoml build | octoml deploy --hardware <HARDWARE_NAME>
 ```
 
 ### Express Acceleration Mode and Full Acceleration Mode
