@@ -325,11 +325,11 @@ created:
 ![Completing model setup in the octoml cli](images/image30.png)
 
 Next run the package command to package the model into a container. Note that
-the first time you run this command a 5+ GB base image will be downloaded, which
-can take between 5 to 20 minutes.
+the first time you run this command a base image of up to 3.5 GB will be downloaded, which
+can take a few minutes.
 
 ``` shell
-./octoml package
+./octoml package | ./octoml build
 ```
 
 
@@ -338,7 +338,7 @@ can take between 5 to 20 minutes.
 Finally, run the deploy command to start running the container locally:
 
 ``` shell
-./octoml deploy
+./octoml deploy -r <RUN_ID>
 ```
 
 ![Result of running octoml deploy command](images/image28.png)
