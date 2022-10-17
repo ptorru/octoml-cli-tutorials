@@ -54,7 +54,7 @@ $ cd vision
 $ ls
 cat_input_images/  critterblock.onnx  octoml.yaml  run.py
 ```
-> Note: These steps can be completed with any of the example model dirs provided. Here we have decided to `cd` into the `vision` dir. 
+> Note: These steps can be completed with any of the example model dirs provided. Here we have decided to `cd` into the `vision` dir.
 
 ## Local inference without a container
 
@@ -134,7 +134,7 @@ Again, we see a cat score of 1, approach score of 1, and prey score of 0.999 on 
 
 Now that we have a production-grade container ready for deployment, let's deploy the container to a Kubernetes cluster using Google GKE, Amazon EKS, or Azure AKS.
 
-Navigate one level back up to the tutorials repo: 
+Navigate one level back up to the tutorials repo:
 
 ```shell
 $ cd ..
@@ -150,7 +150,7 @@ If you don't already have an EKS cluster set up, follow the guides from AWS to s
 - [Getting started with Amazon EKS – AWS Management Console and AWS CLI](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 - [Provision an EKS Cluster (AWS)](https://learn.hashicorp.com/tutorials/terraform/eks?in=terraform/kubernetes)
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). 
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
@@ -205,7 +205,7 @@ If you don't already have an AKS cluster set up, follow the guides from Azure to
 - [Quickstart: Deploy an Azure Kubernetes Service cluster using the Azure CLI](https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-portal#create-an-aks-cluster)
 - [Provision an AKS Cluster (Azure)](https://learn.hashicorp.com/tutorials/terraform/aks?in=terraform/kubernetes)
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli). 
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli).
 1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
@@ -260,7 +260,7 @@ If you don't already have a GKE cluster set up, follow the guide from GCP to set
 
 In order to push your image to Artifact Registry, make sure that the [Artifact Registry API](https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images#before-you-begin) is enabled for your project.
 
-The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [gcloud CLI](https://cloud.google.com/sdk/docs/initializing). 
+The script we will use to deploy to the cluster requires us to install `kubectl` and `helm`, plus the [gcloud CLI](https://cloud.google.com/sdk/docs/initializing).
 1. Run `setup-cloud.sh` to install the necessary cloud utilities:
 
 ```
@@ -394,7 +394,7 @@ Now, you are ready to run accelerated packaging. This returns the best-performin
 
 
 ```shell
-$ octoml package -e
+$ octoml package -a
 ```
 
 Now, verify that you've successfully built an accelerated container.
@@ -416,10 +416,10 @@ $ octoml package -a | octoml build | octoml deploy --hardware <HARDWARE_NAME>
 The following table explains the difference between the two modes:
 
 
-| Name | Express Acceleration Mode | Full Acceleration Mode |
+| Name | Normal Acceleration Mode | Extended Acceleration Mode |
 |---|---|---|
 | Time   | 20 Minutes  | Several Hours |
-| Command | `octoml package -e` | `octoml package -a` |
+| Command | `octoml package -a` | `octoml package -x` |
 | Purpose | Most performant package out of all optimizations attempted within 20 minutes |  Most performant package out of full optimizations attempted over several hours |
 
 ### Troubleshooting
