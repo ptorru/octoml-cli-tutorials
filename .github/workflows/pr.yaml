@@ -54,7 +54,7 @@ jobs:
 
     # Vision tutorial
     - name: Build vision model
-      run: cd tutorials/vision && $OCTOML package | $OCTOML build | $OCTOML deploy
+      run: cd tutorials/vision && $OCTOML package -s | $OCTOML build -s | $OCTOML deploy -s
     - name: Docker check running
       run: sleep 4  && ps -ef | grep 8000
     - name: Run tutorial test
@@ -108,7 +108,7 @@ jobs:
 
     # QA tutorial
     - name: Build QA model
-      run: cd tutorials/question_answering && $OCTOML package | $OCTOML build | $OCTOML deploy
+      run: cd tutorials/question_answering && $OCTOML package -s | $OCTOML build -s | $OCTOML deploy -s
     - name: Docker check running
       run: sleep 4  && ps -ef | grep 8000
     - name: Run tutorial test
@@ -162,7 +162,7 @@ jobs:
 
     # Generation tutorial
     - name: Build generation model
-      run: cd tutorials/generation && $OCTOML package | $OCTOML build | $OCTOML deploy
+      run: cd tutorials/generation && $OCTOML package -s | $OCTOML build -s | $OCTOML deploy -s
     - name: Docker check running
       run: sleep 4  && ps -ef | grep 8000
     - name: Run tutorial test

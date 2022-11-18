@@ -92,7 +92,7 @@ models:
 
 2. Package, build, and deploy the container:
   ```
-$ octoml package | octoml build | octoml deploy
+$ octoml package -s | octoml build -s | octoml deploy -s
  ∙∙∙ Models imported
  ∙∙∙ Packages generated
  ∙∙∙ Docker image assembled
@@ -378,13 +378,13 @@ kubectl logs pod/demo-6f45998bbb-6jnlq -n ${model_name}
 
 ## Accelerating your model on different hardware targets
 
-To access advanced features like model acceleration, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview). Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to access the OctoML platform. Next, [generate an API access token](https://app.octoml.ai/account/settings) and call `octoml add acceleration` to store your API access token in the CLI.
+To access advanced features like model acceleration, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview). Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to access the OctoML platform. Next, [generate an API access token](https://app.octoml.ai/account/settings) and call `octoml config -k <YOUR-TOKEN-HERE>` to store your API access token in the CLI.
 
-`octoml add acceleration` is an interactive help wizard that not only prompts you for the API access token but also helps you populate the input configuration file (`octoml.yaml`) with other fields required for acceleration, including hardware and (for dynamically shaped models only) the model's input shapes.
+`octoml add --hardware` is an interactive help wizard that helps you populate the input configuration file (`octoml.yaml`) with the hardware field that is required for acceleration.
 
 
 ```shell
-$ octoml add acceleration
+$ octoml add --hardware
 
 Updated octoml.yaml with the new hardware targets aws_c5.12xlarge - Cascade Lake - 48 vCP
 ```

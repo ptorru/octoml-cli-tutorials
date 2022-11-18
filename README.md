@@ -9,9 +9,9 @@ You can run inferences on the container locally for development and testing, the
 
 1. Download the latest version of the OctoML CLI:
 
-* [Mac](https://downloads.octoml.ai/octoml_macOS_v0.6.1.zip): Due to MacOS's security setup, you'll need to confirm in your browser that you'd like to retain the downloaded file, go to Finder to unzip the file, right-click on the `octoml` executable, and then click Open With -> Terminal -> Open.
-* [Linux](https://downloads.octoml.ai/octoml_ubuntu_v0.6.1.tar.gz)
-* [Windows](https://downloads.octoml.ai/octoml_v0.6.1.zip)
+* [Mac](https://downloads.octoml.ai/octoml_macOS_v0.7.3.zip): Due to MacOS's security setup, you'll need to confirm in your browser that you'd like to retain the downloaded file, go to Finder to unzip the file, right-click on the `octoml` executable, and then click Open With -> Terminal -> Open.
+* [Linux](https://downloads.octoml.ai/octoml_ubuntu_v0.7.3.tar.gz)
+* [Windows](https://downloads.octoml.ai/octoml_v0.7.3.zip)
 
 2. Check out the list of available commands by running `./octoml` in your current directory.
 
@@ -49,7 +49,9 @@ We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI
 
 > Note: You do not need to provide an OctoML API access token at this stage. If you run these commands without setting an OctoML API access token beforehand, we do not upload your model to the OctoML platform.
 
-1. `octoml init`: This is the first command we recommend that you run. It helps you set up an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
+1. `octoml config`: This is the first command we recommend that you run. It helps you initialize your CLI settings.
+
+2. `octoml add --model`: Next, this command will generate an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
 
 2. `octoml package`: Packages the models specified in the input configuration file into a Docker tarball that's ready to be built into an image on any machine that has Docker installed. The input configuration file is required for this command to complete successfully.
 
@@ -59,10 +61,12 @@ We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI
 
 5. To run inferences against the container, follow our [demos](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) to configure an appropriate `run.py` file for your specific model. `run.py` provides a standard schema on how to run inferences against the OctoML-deployed model, while requiring you to customize the pre- and post-processing code for your own model use case.
 
+> **_n.b.:_** In the demos linked above, you may see mention of the `-s` or `--stream` flag. This flag is useful when you want to chain two or three core commands together in order to package a model, build an image, and/or deploy a container all in one go. Use of `-s` is independent of any other flags; in other words, you can use it with acceleration (`-a` or `-x`) as well.
+
 ## Get access to model acceleration and benchmarking
 OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others) to give you the best-performing package for any model. To access OctoML's acceleration and benchmarking services, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview) after which you can [generate an API access token](https://app.octoml.ai/account/settings).
 
-1. `octoml add acceleration`: Prompts you for information required for acceleration, including an OctoML API access token, hardware, and dynamic shape disambiguation. Populates the information into your input configuration file for downstream use in `octoml package`. If you choose not to run `octoml add acceleration`, make sure to configure your input configuration file manually with the requisite fields for acceleration before calling `octoml package -a` or `octoml package -x`.
+1. `octoml add --hardware`: Prompts you for the desired hardware target(s) for acceleration from a list of those available to you. This command requires you to have already configured your API access token. Populates the information into your input configuration file for downstream use in `octoml package`. If you choose not to run `octoml add --hardware`, make sure to configure your input configuration file manually with the requisite fields for acceleration before calling `octoml package -a` or `octoml package -x`.
 
 2. `octoml package -a`: To start off, we recommend running acceleration in our basic mode, which completes within 20 minutes. If you are willing to wait for up to several hours for potentially better latency via a fuller exploration of the optimization space, run `octoml package -x`. Both modes return the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. After this step we recommend that you send this built container to a remote cloud repository for downstream remote usage.
 
@@ -70,7 +74,7 @@ OctoML combines state-of-the-art compiler technologies (TVM, ONNX-RT, and others
 
 ## Deploying an OctoML package
 
-See [demos](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) for how to deploy OctoML model containers to downstream cloud registries like ECR and Kubernetes services like EKS.
+See [demos](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#demos) for examples showing how to deploy OctoML model containers to downstream cloud registries like ECR and Kubernetes services like EKS.
 
 ## Telemetry
 
