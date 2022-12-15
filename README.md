@@ -11,11 +11,11 @@ You can run inferences on the container locally for development and testing, the
 
 | Operating System | Link |
 | ---------------- | ----- |
-| macOS            | [Installer](https://downloads.octoml.ai/octoml_macOS_v0.7.4.pkg) or [Standalone binary](https://downloads.octoml.ai/octoml_macOS_v0.7.4.zip) |
-| Linux            | [Standalone binary](https://downloads.octoml.ai/octoml_ubuntu_v0.7.4.tar.gz) |
-| Windows          | [Standalone binary](https://downloads.octoml.ai/octoml_v0.7.4.zip) |
+| macOS            | [Installer](https://downloads.octoml.ai/octoml_macOS_v0.7.4.pkg) or [Standalone executable](https://downloads.octoml.ai/octoml_macOS_v0.7.4.zip) |
+| Linux            | [Standalone executable](https://downloads.octoml.ai/octoml_ubuntu_v0.7.4.tar.gz) |
+| Windows          | [Standalone executable](https://downloads.octoml.ai/octoml_v0.7.4.zip) |
 
-2. If you downloaded the standalone binary, extract the archive and move the executable to an appropriate location like `PATH`. For example, you can move the executable to `/usr/local/bin` by running `mv octoml /usr/local/bin` in your current directory. If you used the macOS Installer, this step is done for you automatically.
+2. If you downloaded the standalone executable, extract the archive and move the executable to an appropriate location like `/usr/local/bin`. Ideally, it should be in `PATH` so you can call it from anywhere in a shell. For example, you can move the executable to `/usr/local/bin` by running `mv octoml /usr/local/bin` in your current directory. If you used the macOS Installer, this step is done for you automatically.
 
 3. Verify the `octoml` command works and accept OctoML's [Terms of Use](https://octoml.ai/legals/terms-of-service/) and [Privacy Policy](https://octoml.ai/legals/privacy-policy/):
 
@@ -25,10 +25,10 @@ By use of this CLI application, you agree to OctoML’s terms of use and privacy
 https://octoml.ai/legals/terms-of-service/
 https://octoml.ai/legals/privacy-policy/
 ? Do you wish to continue? · yes
-octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
+octoml 0.7.3 (7573518 2022-11-18 22:34:23)
 
 $ octoml -V
-octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
+octoml 0.7.3 (7573518 2022-11-18 22:34:23)
 ```
 
 4. Check out the list of available commands by running `octoml`.
