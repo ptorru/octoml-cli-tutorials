@@ -80,4 +80,4 @@ See [demos](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#d
 
 OctoML by default collects telemetry on your usage of the CLI. However, we do not collect your model unless you submit an OctoML API access token.
 
-The first time you run the CLI's `octoml init` command, you will get prompted on whether you'd like to opt out of telemetry. You can opt out of telemetry anytime by setting the following environment variable: `export OCTOML_TELEMETRY=false`.
+The first time you run the CLI's `octoml config` command, you will get prompted on whether you'd like to opt out of telemetry. You can opt out of telemetry anytime by setting the following environment variable: `export OCTOML_TELEMETRY=false`.
