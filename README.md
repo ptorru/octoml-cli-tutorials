@@ -7,17 +7,17 @@ You can run inferences on the container locally for development and testing, the
 
 ## Getting started
 
-1. Download the latest version of the OctoML CLI:
+1. Download the latest version of the OctoML CLI for your operating system:
 
-* [Mac](https://downloads.octoml.ai/octoml_macOS_v0.7.3.zip): Due to MacOS's security setup, you'll need to confirm in your browser that you'd like to retain the downloaded file, go to Finder to unzip the file, right-click on the `octoml` executable, and then click Open With -> Terminal -> Open.
-* [Linux](https://downloads.octoml.ai/octoml_ubuntu_v0.7.3.tar.gz)
-* [Windows](https://downloads.octoml.ai/octoml_v0.7.3.zip)
+| Operating System | Link |
+| ---------------- | ----- |
+| macOS            | [Installer](https://downloads.octoml.ai/octoml_macOS_v0.7.6.pkg) or [Standalone executable](https://downloads.octoml.ai/octoml_macOS_v0.7.6.zip) |
+| Linux            | [Standalone executable](https://downloads.octoml.ai/octoml_ubuntu_v0.7.6.tar.gz) |
+| Windows          | [Standalone executable](https://downloads.octoml.ai/octoml_v0.7.6.zip) |
 
-2. Check out the list of available commands by running `./octoml` in your current directory.
+2. If you downloaded the standalone executable, extract the archive and move the executable to an appropriate location like `/usr/local/bin`. Ideally, it should be in `PATH` so you can call it from anywhere in a shell. For example, you can move the executable to `/usr/local/bin` by running `mv octoml /usr/local/bin` in your current directory. If you used the macOS Installer, this step is done for you automatically.
 
-3. Move the binary to an appropriate location like `/usr/local/bin` by running `mv octoml /usr/local/bin` in your current directory.
-
-4. Verify the `octoml` command works and accept OctoML's [Terms of Use](https://octoml.ai/legals/terms-of-service/) and [Privacy Policy](https://octoml.ai/legals/privacy-policy/):
+3. Verify the `octoml` command works and accept OctoML's [Terms of Use](https://octoml.ai/legals/terms-of-service/) and [Privacy Policy](https://octoml.ai/legals/privacy-policy/):
 
 ```shell
 $ octoml -V
@@ -25,11 +25,13 @@ By use of this CLI application, you agree to OctoML’s terms of use and privacy
 https://octoml.ai/legals/terms-of-service/
 https://octoml.ai/legals/privacy-policy/
 ? Do you wish to continue? · yes
-octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
+octoml 0.7.6 (e13c6f5 2023-01-11 13:22:22)
 
 $ octoml -V
-octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
+octoml 0.7.6 (e13c6f5 2023-01-11 13:22:22)
 ```
+
+4. Check out the list of available commands by running `octoml`.
 
 5. Ensure you have a Docker daemon installed, by running `docker ps`. If the command is not found, install Docker for [Mac OS](https://runnable.com/docker/install-docker-on-macos), [Linux](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-linux.html), or [Windows](https://docs.rapidminer.com/9.6/deployment/overview/install-docker-on-windows.html).
 
@@ -39,7 +41,7 @@ octoml 0.4.2 (8f3bfbd 2022-06-09 23:11:41)
 We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
 
 **Hardware coverage**: 
-You may run our CLI on x86, CUDA machines, and ARM64 machines (including M1 Macs). In unauthenticated usage, the containers built via the CLI may only be deployed on hardware architectures matching the local machine on which you ran  
+You may run our CLI on x86 or CUDA machines. If you are using macOS, ARM64 machines are also supported (including M1 and M2 machines). In unauthenticated usage, the containers built via the CLI may only be deployed on hardware architectures matching the local machine on which you ran  
 `octoml package`. In authenticated usage, you may create accelerated model containers deployable to any x86, CUDA, and ARM64 remote cloud instance, even if that hardware architecture does not match that of your local machine on which you ran `octoml package`.
 
 **OS coverage**: 
