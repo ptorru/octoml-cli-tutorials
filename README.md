@@ -49,9 +49,7 @@ We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI
 
 ## Core commands to deploy your model
 
-> Note: You do not need to provide an OctoML API access token at this stage. If you run these commands without setting an OctoML API access token beforehand, we do not upload your model to the OctoML platform.
-
-1. `octoml config`: This is the first command we recommend that you run. It helps you initialize your CLI settings.
+1. `octoml config -gi`: This is the first command we recommend that you run. It helps you initialize your CLI settings. It is not required to provide an OctoML API access token at this stage-- we will run the ensuing commands without uploading your model to the OctoML platform.
 
 2. `octoml add --model`: Next, this command will generate an input configuration file by prompting you for the information required for the CLI to generate a container for deployment.
 
@@ -82,4 +80,4 @@ See [demos](https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#d
 
 OctoML by default collects telemetry on your usage of the CLI. However, we do not collect your model unless you submit an OctoML API access token.
 
-The first time you run the CLI's `octoml init` command, you will get prompted on whether you'd like to opt out of telemetry. You can opt out of telemetry anytime by setting the following environment variable: `export OCTOML_TELEMETRY=false`.
+When you run the CLI's `octoml config -gi` command, you will get prompted on whether you'd like to opt out of telemetry. You can also opt out of telemetry anytime by setting the following environment variable: `export OCTOML_TELEMETRY=false`.
