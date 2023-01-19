@@ -11,9 +11,9 @@ You can run inferences on the container locally for development and testing, the
 
 | Operating System | Link |
 | ---------------- | ----- |
-| macOS            | [Installer](https://downloads.octoml.ai/octoml_macOS_v0.7.6.pkg) or [Standalone executable](https://downloads.octoml.ai/octoml_macOS_v0.7.6.zip) |
-| Linux            | [Standalone executable](https://downloads.octoml.ai/octoml_ubuntu_v0.7.6.tar.gz) |
-| Windows          | [Standalone executable](https://downloads.octoml.ai/octoml_v0.7.6.zip) |
+| macOS            | [Installer](https://downloads.octoml.ai/octoml_macOS_v0.7.7.pkg) or [Standalone executable](https://downloads.octoml.ai/octoml_macOS_v0.7.7.zip) |
+| Linux            | [Standalone executable](https://downloads.octoml.ai/octoml_ubuntu_v0.7.7.tar.gz) |
+| Windows          | [Standalone executable](https://downloads.octoml.ai/octoml_v0.7.7.zip) |
 
 2. If you downloaded the standalone executable, extract the archive and move the executable to an appropriate location like `/usr/local/bin`. Ideally, it should be in `PATH` so you can call it from anywhere in a shell. For example, you can move the executable to `/usr/local/bin` by running `mv octoml /usr/local/bin` in your current directory. If you used the macOS Installer, this step is done for you automatically.
 
