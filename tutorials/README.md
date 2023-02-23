@@ -3,9 +3,9 @@
 The end-to-end demos in this directory will walk you through:
 
 - ML model container generation using the `octoml` CLI
+- Accelerating a model to save on cloud costs by connecting to the OctoML platform
 - Local container deployment and inference via Docker
 - Remote container deployment and inference via Amazon Elastic Kubernetes Service (EKS) and Google Kubernetes Engine (GKE)
-- Accelerating a model to save on cloud costs by connecting to the OctoML platform
 
 Three example model setups are provided for you to explore:
 
@@ -71,12 +71,17 @@ Prey score: 0.999
 
 The `critterblock.onnx` model is a Computer Vision (Resnet50-based) model customized for a cat door; the door locks when it detects that a cat is carrying its prey into the house. In `run.py`, we pass in a sample image to the model, run image preprocessing code customized for this use case, run an inference using ONNX Runtime, and finally call image post-processing code on the results of the model. In this case, the script returns a cat score of 1, approach score of 1, and prey score of 0.999 on this image, which means the model correctly detected that a cat is approaching the cat door while holding its prey.
 
-
 ## Generate production-scale deployment using the OctoML CLI
 
-Now that we've confirmed the model is working as intended, let's prepare it for production-scale usage (in this case, so that we can protect thousands of cloud-connected cat doors). We will deploy the package locally using the OctoML CLI without having to upload our models to the OctoML platform.
+Now that we've confirmed the model is working as intended, let's prepare it for production-scale usage (in this case, so that we can protect thousands of cloud-connected cat doors).
 
-The `octoml.yaml` file has been created for you already:
+1. You will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview). Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to access the OctoML platform. Next, [generate an API access token](https://app.octoml.ai/account/settings) and store it under the `OCTOML_ACCESS_TOKEN` variable in your environment:
+
+```
+export OCTOML_ACCESS_TOKEN=<YOUR-TOKEN-HERE>
+```
+
+2. The `octoml.yaml` file has been created for you already, but you will need to choose the hardware targets on which you wish to run and accelerate your model. `octoml add --hardware` is an interactive help wizard that helps you populate the input configuration file (`octoml.yaml`) with the hardware field that is required for acceleration:
 
 ```
 $ cat octoml.yaml
@@ -86,26 +91,68 @@ models:
     path: critterblock.onnx
 ```
 
-1. Use `octoml.yaml` to generate a Docker image and start a Docker container running [Triton](https://github.com/triton-inference-server/server/blob/r22.06/README.md#documentation) -- this will deploy a Docker container locally on your machine.
+```shell
+$ octoml add --hardware
 
-> Note: This will pull down a base image that up to 3.5 GB in size. Ensure you have enough disk space for this operation.
-
-2. Package, build, and deploy the container:
-  ```
-$ octoml package -s | octoml build -s | octoml deploy -s
- ∙∙∙ Models imported
- ∙∙∙ Packages generated
- ∙∙∙ Docker image assembled
- ∙∙∙ Triton image built
- ∙∙∙ 🐳 Triton container started
-
-A docker container with a triton inference server is now running on your local
-machine. For more information about how to interact with your model, please
-refer to our tutorials and guides on GitHub.
-
-https://github.com/octoml/octoml-cli-tutorials
+Updated octoml.yaml with the new hardware targets aws_c5.12xlarge - Cascade Lake - 48 vCP
 ```
-3. Verify that a Docker container has been spun up successfully by running `docker ps`:
+
+```
+$ cat octoml.yaml
+---
+models:
+  critterblock:
+    hardware:
+      - aws_c5.12xlarge
+    path: critterblock.onnx
+```
+
+3. Now, you are ready to run accelerated packaging. This returns the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -x` for full acceleration mode. See the below table for differences:
+
+| Name | Normal Acceleration Mode | Extended Acceleration Mode |
+|---|---|---|
+| Time   | 20 Minutes  | Several Hours |
+| Command | `octoml package -a` | `octoml package -x` |
+| Purpose | Most performant package out of all optimizations attempted within 20 minutes |  Most performant package out of full optimizations attempted over several hours |
+
+4. Package and build the container:
+
+```
+$ octoml package -a -s | octoml build
+ ∙∙∙ Ingesting models
+  ✅ Models ingested
+
+Building Docker images may require a 3+ GB base image.
+Once downloaded, this base image will be cached by Docker.
+Re-downloads will not be required again until the base image
+is removed by the user or requires updating.
+
+  ✅ Docker image assembled
++----------+----------+-----------------+----------------------------------------------------------------------------------+
+|  model   | hardware | latency_mean_ms |                                 output_file_path                                 |
++----------+----------+-----------------+----------------------------------------------------------------------------------+
+| densenet | skylake  |    49.653362    | densenet.tar.gz_50a762bf1b5ea012ef046d4302649ef06ebfeed2ab6794ae25dfaf22c26eadb5 |
++----------+----------+-----------------+----------------------------------------------------------------------------------+
+
+
+You can now push the local container to a remote container repository (e.g. ECR)
+per the instructions in our tutorials repo
+(https://github.com/octoml/octoml-cli-tutorials/tree/main/tutorials#kubernetes-deployment),
+then run inferences against the container on a remote machine with an
+architecture matching the one you've accelerated the model for.
+```
+
+5. Verify that a Docker image has been built.
+
+```
+$ docker images
+REPOSITORY         TAG      IMAGE ID       CREATED             SIZE
+densenet-skylake   latest   c39f67a8cff6   About an hour ago   13.6GB
+```
+
+6. You can now take the image, and start the container using `docker run`.
+
+<!-- TODO: Add instructions -->
 
 ```
 $ docker ps
@@ -113,11 +160,11 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED      STATUS      
 7182ac8ee475   a85ac5657dc0   "/opt/tritonserver/n…"   3 days ago   Up 3 days   0.0.0.0:8000-8002->8000-8002/tcp   vengeful-coach
 ```
 
-## Confirm that we can run inferences on the container locally.
+## Confirm that we can run inferences on the container locally
 
-By default, the running Docker container exposes a GRPC endpoint at port 8001. The
-following invocation will run the client code for sending a sample inference request
-to that default port. `run.py` contains client code for the deployed Docker container:
+> Note that this only works if the local machine on which you're running the CLI has the same hardware architecture as the hardware you accelerated the model for. For example, if you are running the CLI on an Apple Silicon mac, you can only run deployment on your local mac successfully if you accelerated your model on a Graviton instance, as both of them share the ARM64 architecture.
+
+By default, the running Docker container exposes a GRPC endpoint at port 8001. The following invocation will run the client code for sending a sample inference request to that default port. `run.py` contains client code for the deployed Docker container:
 
 ```
 $ python3 run.py --triton
@@ -342,6 +389,7 @@ helm uninstall ${model_name} -n ${model_name}
 ```
 
 ## Metrics
+
 Prometheus metrics from the Triton server are exposed on `localhost:8002/metrics` by default. How metrics are scraped will depend on how you are operating your Prometheus server.
 
 If you are using the Prometheus Operator, a ServiceMonitor resource can be configured by setting the following values:
@@ -375,53 +423,5 @@ To get the logs for a failed pod deployment, run the above and modify the pod na
 ```
 kubectl logs pod/demo-6f45998bbb-6jnlq -n ${model_name}
 ```
-
-## Accelerating your model on different hardware targets
-
-To access advanced features like model acceleration, you will need to [sign up for an OctoML account](https://learn.octoml.ai/private-preview). Once you've submitted the signup form, you will receive an email within 1 business day with instructions on how to access the OctoML platform. Next, [generate an API access token](https://app.octoml.ai/account/settings) and call `octoml config -k <YOUR-TOKEN-HERE>` to store your API access token in the CLI.
-
-`octoml add --hardware` is an interactive help wizard that helps you populate the input configuration file (`octoml.yaml`) with the hardware field that is required for acceleration.
-
-
-```shell
-$ octoml add --hardware
-
-Updated octoml.yaml with the new hardware targets aws_c5.12xlarge - Cascade Lake - 48 vCP
-```
-
-
-Now, you are ready to run accelerated packaging. This returns the best-performing package with minimal latency for each hardware you've selected, after exploring multiple acceleration strategies including TVM, ONNX-RT, and the native training framework. We recommend running express mode acceleration as follows, which completes within 20 minutes. If you are willing to wait for several hours for potentially better latency, run `octoml package -a` for full acceleration mode. See the below table for differences.
-
-
-```shell
-$ octoml package -a
-```
-
-Now, verify that you've successfully built an accelerated container.
-
-```shell
-$ docker images | head
-```
-
-You can now push the local container to a remote container repository (e.g. ECR) per the instructions above, then run inferences against the container on a remote machine with an architecture matching the one you've accelerated the model for.
-
-If you wish to locally deploy and test inferences against the accelerated container, you may run the following command, but note that it only works if the local machine on which you're running the CLI has the same hardware architecture as the hardware you accelerated the model for (e.g. if you are running the CLI on an M1 mac, you can only run deployment on your local mac successfully if you accelerated your model on a Graviton instance, as both of them share the ARM64 architecture).
-
-```shell
-$ octoml package -a | octoml build | octoml deploy --hardware <HARDWARE_NAME>
-```
-
-### Express Acceleration Mode and Full Acceleration Mode
-
-The following table explains the difference between the two modes:
-
-
-| Name | Normal Acceleration Mode | Extended Acceleration Mode |
-|---|---|---|
-| Time   | 20 Minutes  | Several Hours |
-| Command | `octoml package -a` | `octoml package -x` |
-| Purpose | Most performant package out of all optimizations attempted within 20 minutes |  Most performant package out of full optimizations attempted over several hours |
-
-### Troubleshooting
 
 For Torchscript models traced on a GPU, containers will not be able to be run on CPUs in the local CLI. Please [sign up for an OctoML account](https://learn.octoml.ai/private-preview) and upgrade to authenticated usage per the instructions above if this use case is applicable for you.
