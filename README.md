@@ -35,10 +35,6 @@ octoml 0.8.0 (commit hash, build date)
 **Model framework coverage**: 
 We support TensorFlow SavedModel, TensorFlow GraphDef, Torchcript (PyTorch), and ONNX models.
 
-**Hardware coverage**: 
-You may run our CLI on x86 or CUDA machines. If you are using macOS, ARM64 machines are also supported (including M1 and M2 machines). In unauthenticated usage, the containers built via the CLI may only be deployed on hardware architectures matching the local machine on which you ran  
-`octoml package`. In authenticated usage, you may create accelerated model containers deployable to any x86, CUDA, and ARM64 remote cloud instance, even if that hardware architecture does not match that of your local machine on which you ran `octoml package`.
-
 **OS coverage**: 
 We support macOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
 
