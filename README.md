@@ -23,7 +23,7 @@ By downloading and using the OctoML CLI, you agree to OctoML’s [Terms of Use](
 
 ```shell
 $ octoml -V
-octoml 0.8.0 (commit hash, build date)
+octoml 0.8.0 (8d1a948 2023-03-05 14:10:04)
 ```
 
 4. Check out the list of available commands by running `octoml`.
