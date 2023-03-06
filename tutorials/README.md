@@ -2,9 +2,8 @@
 
 The end-to-end demos in this directory will walk you through:
 
-- ML model container generation using the `octoml` CLI
+- ML model container image generation using the `octoml` CLI
 - Accelerating a model to save on cloud costs by connecting to the OctoML platform
-- Local container deployment and inference via Docker
 - Remote container deployment and inference via Amazon Elastic Kubernetes Service (EKS) and Google Kubernetes Engine (GKE)
 
 Three example model setups are provided for you to explore:
@@ -15,7 +14,7 @@ Three example model setups are provided for you to explore:
 - generation/             -- GPT2 in ONNX, calling into the HuggingFace transformers library for generation at runtime
 ```
 
-## Getting started
+## Getting Started
 
 1. Make sure you've followed all the steps to [download the OctoML CLI](https://github.com/octoml/octoml-cli-tutorials#getting-started).
 
@@ -149,33 +148,6 @@ $ docker images
 REPOSITORY         TAG      IMAGE ID       CREATED             SIZE
 densenet-skylake   latest   c39f67a8cff6   About an hour ago   13.6GB
 ```
-
-6. You can now take the image, and start the container using `docker run`.
-
-<!-- TODO: Add instructions -->
-
-```
-$ docker ps
-CONTAINER ID   IMAGE          COMMAND                  CREATED      STATUS      PORTS                              NAMES
-7182ac8ee475   a85ac5657dc0   "/opt/tritonserver/n…"   3 days ago   Up 3 days   0.0.0.0:8000-8002->8000-8002/tcp   vengeful-coach
-```
-
-## Confirm that we can run inferences on the container locally
-
-> Note that this only works if the local machine on which you're running the CLI has the same hardware architecture as the hardware you accelerated the model for. For example, if you are running the CLI on an Apple Silicon mac, you can only run deployment on your local mac successfully if you accelerated your model on a Graviton instance, as both of them share the ARM64 architecture.
-
-By default, the running Docker container exposes a GRPC endpoint at port 8001. The following invocation will run the client code for sending a sample inference request to that default port. `run.py` contains client code for the deployed Docker container:
-
-```
-$ python3 run.py --triton
-
-Cat score: 1.000
-Approach score: 1.000
-Prey score: 0.999
---------------------------------------
-```
-
-Again, we see a cat score of 1, approach score of 1, and prey score of 0.999 on our sample image. This means our containerized model is working as intended.
 
 ## Kubernetes Deployment
 
@@ -390,7 +362,7 @@ helm uninstall ${model_name} -n ${model_name}
 
 ## Metrics
 
-Prometheus metrics from the Triton server are exposed on `localhost:8002/metrics` by default. How metrics are scraped will depend on how you are operating your Prometheus server.
+Prometheus metrics from the Triton server are exposed on port 8002 default at the `/metrics` endpoint. How metrics are scraped will depend on how you are operating your Prometheus server.
 
 If you are using the Prometheus Operator, a ServiceMonitor resource can be configured by setting the following values:
 ```

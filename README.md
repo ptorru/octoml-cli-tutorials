@@ -40,7 +40,7 @@ You may run our CLI on x86 or CUDA machines. If you are using macOS, ARM64 machi
 `octoml package`. In authenticated usage, you may create accelerated model containers deployable to any x86, CUDA, and ARM64 remote cloud instance, even if that hardware architecture does not match that of your local machine on which you ran `octoml package`.
 
 **OS coverage**: 
-We support MacOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
+We support macOS, Linux (Ubuntu 18.04+), and Windows. If you wish to use the CLI on Ubuntu 18.04, please ensure your protobuf version is on 3.19.4.
 
 ## Core commands to accelerate your model and build a deployable container
 
