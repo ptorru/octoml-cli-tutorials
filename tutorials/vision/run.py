@@ -13,8 +13,11 @@ from triton_util import TritonRemoteModel  # noqa
 # onnxruntime doesn't support python 3.10
 try:
     from onnxruntime import InferenceSession
-except ImportError:
-    print("onnxruntime doesn't support python 3.10: use --triton, --local won't work")
+except ImportError as e:
+    if sys.version_info.major == 3 and sys.version_info.minor == 10:
+        print("onnxruntime doesn't support python 3.10: use --triton, --local won't work")
+    else:
+        print("not able to import onnxruntime. Check your environment. Did you run ../setup.sh?")
 
 
 def image_preprocess(imgs: List[Image.Image]) -> List[np.ndarray]:
